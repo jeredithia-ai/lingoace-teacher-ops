@@ -6,7 +6,7 @@ import { Navbar } from "@/components/navbar";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Interview Coach - 智能面试模拟",
+  title: "模拟面试 | Mock Interview",
   description: "上传简历与岗位描述，AI 帮你匹配分析、模拟语音面试、生成问答清单",
 };
 

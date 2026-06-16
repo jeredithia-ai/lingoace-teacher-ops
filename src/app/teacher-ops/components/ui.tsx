@@ -56,7 +56,7 @@ export function SideNav({
       </div>
       <div className="mt-4 border-t border-slate-100 pt-4">
         <Link
-          href="/lingoace/calculator"
+          href="/teacher-ops/calculator"
           className="lingoace-nav-link w-full text-indigo-600 hover:bg-indigo-50"
         >
           数据推演 →

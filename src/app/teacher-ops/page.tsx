@@ -103,7 +103,7 @@ export default function LingoAceMainPage() {
             </div>
             <div className="flex shrink-0 flex-col gap-3 sm:flex-row lg:flex-col">
               <Link
-                href="/lingoace/calculator"
+                href="/teacher-ops/calculator"
                 className="inline-flex items-center justify-center gap-2 rounded-xl bg-white px-6 py-3 text-sm font-semibold text-indigo-900 shadow-lg shadow-indigo-950/30 transition hover:bg-indigo-50"
               >
                 <Calculator className="h-4 w-4" />
@@ -334,7 +334,7 @@ export default function LingoAceMainPage() {
                     三档推演预览
                   </p>
                   <Link
-                    href="/lingoace/calculator"
+                    href="/teacher-ops/calculator"
                     className="text-xs font-semibold text-indigo-600 hover:text-indigo-800"
                   >
                     进入计算器调参 →
@@ -440,7 +440,7 @@ export default function LingoAceMainPage() {
 
             <div className="flex justify-center pb-4">
               <Link
-                href="/lingoace/calculator"
+                href="/teacher-ops/calculator"
                 className="btn-primary gap-2 px-8 py-3 text-base shadow-lg shadow-indigo-200"
               >
                 需要看漏斗演算？进入诊断计算器

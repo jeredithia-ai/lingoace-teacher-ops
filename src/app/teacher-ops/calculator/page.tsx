@@ -83,7 +83,7 @@ export default function CalculatorPage() {
         <div className="lingoace-hero-grid" />
         <div className="relative mx-auto max-w-6xl px-6 py-8">
           <Link
-            href="/lingoace"
+            href="/teacher-ops"
             className="mb-6 inline-flex items-center gap-1.5 text-sm text-indigo-200 transition hover:text-white"
           >
             <ArrowLeft className="h-4 w-4" />

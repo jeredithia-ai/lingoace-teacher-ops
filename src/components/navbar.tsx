@@ -36,24 +36,24 @@ export function Navbar() {
   async function logout() {
     await fetch("/api/auth/logout", { method: "POST" });
     setUser(null);
-    router.push("/");
+    router.push("/mock-interview");
     router.refresh();
   }
 
   const isAuthPage = pathname === "/login" || pathname === "/register";
-  const isStandalone = pathname.startsWith("/lingoace");
+  const isStandalone = pathname.startsWith("/teacher-ops");
 
   if (isStandalone) return null;
 
   return (
     <header className="sticky top-0 z-50 border-b border-slate-200/80 bg-white/80 backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
-        <Link href="/" className="flex items-center gap-2 font-bold text-slate-900">
+        <Link href="/mock-interview" className="flex items-center gap-2 font-bold text-slate-900">
           <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-brand-600 text-white">
             <Sparkles className="h-5 w-5" />
           </div>
           <span>
-            Interview <span className="text-brand-600">Coach</span>
+            模拟<span className="text-brand-600">面试</span>
           </span>
         </Link>
 
