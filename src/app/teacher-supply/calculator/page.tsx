@@ -65,9 +65,9 @@ const INPUT_GROUPS = [
 ];
 
 export default function ChannelCalculatorPage() {
-  const [activeChannel, setActiveChannel] = useState<TeacherChannelId>("religious");
+  const [activeChannel, setActiveChannel] = useState<TeacherChannelId>("china");
   const [assumptions, setAssumptions] = useState<Assumptions>(
-    CHANNEL_PRESETS.religious.assumptions
+    CHANNEL_PRESETS.china.assumptions
   );
   const [expandedField, setExpandedField] = useState<keyof Assumptions | null>(null);
 
@@ -123,7 +123,7 @@ export default function ChannelCalculatorPage() {
             <div>
               <h1 className="text-xl font-bold text-white sm:text-2xl">多渠道数据算盘</h1>
               <p className="text-sm text-indigo-200/80">
-                宗教 · 欧美 · 北美 · 菲教（规划）— CAC、漏斗、月成本对比
+                中教 · 北美 · 欧美 · 菲教（规划）— CAC、漏斗、月成本对比
               </p>
             </div>
           </div>

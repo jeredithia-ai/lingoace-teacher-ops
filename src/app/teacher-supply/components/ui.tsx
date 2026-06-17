@@ -181,9 +181,9 @@ export function ProblemCard({
 }
 
 const CHANNEL_SLUG: Record<string, string> = {
-  宗教: "religious",
-  欧美: "europe-us",
+  中教: "china",
   北美: "north-america",
+  欧美: "europe-us",
   菲教: "philippines",
 };
 
@@ -208,7 +208,7 @@ export function ChannelCard({
   recruitmentChannels: string[];
   trainingPath: string;
 }) {
-  const slug = CHANNEL_SLUG[shortLabel] ?? "religious";
+  const slug = CHANNEL_SLUG[shortLabel] ?? "china";
   return (
     <div
       className={cn(

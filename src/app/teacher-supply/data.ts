@@ -5,7 +5,7 @@ import type { Assumptions } from "../teacher-ops/data";
 export const META = {
   title: "师资供给与匹配",
   author: "Selena",
-  subtitle: "从宗教社群出发，搭建全球化师资渠道 — 招聘、成本、匹配一条链",
+  subtitle: "从中教根基出发，搭建全球化师资渠道 — 招聘、成本、匹配一条链",
   disclaimer: "个人项目作品集，非 LingoAce 官方数据。默认值来自行业公开区间推演，计算器可替换真实数据。",
 };
 
@@ -29,8 +29,8 @@ export const PROBLEM_CARDS = [
     id: "channel-cost",
     title: "渠道结构与成本控制",
     severity: "高" as const,
-    problem: "宗教、欧美、北美、菲教四条线成本差 3–5 倍，招聘路径完全不同，却共用一套 KPI。",
-    thinking: "竞品江红树从宗教/社群路线起步，小红书与公众号转化欧美外教；菲教是规划而非现状。渠道要分轨算账。",
+    problem: "中教、北美、欧美、菲教四条线成本差 3–5 倍，招聘路径完全不同，却共用一套 KPI。",
+    thinking: "LingoAce 从中教根基起步，逐步拓展北美/欧美外教；菲教是规划而非现状。渠道要分轨算账。",
     solution: "四渠道矩阵分轨招聘、师训、CAC 看板；内推/社群作为低成本高质量通道优先投入。",
   },
   {
@@ -69,11 +69,11 @@ export const SIDE_NAV = [
   { id: "path", label: "执行路径" },
 ] as const;
 
-/** 师资渠道 · 顺序：宗教 → 欧美 → 北美 → 菲教(规划) */
+/** 师资渠道 · 顺序：中教 → 北美 → 欧美 → 菲教(规划) */
 export type TeacherChannelId =
-  | "religious"
-  | "europe-us"
+  | "china"
   | "north-america"
+  | "europe-us"
   | "philippines";
 
 export type ChannelPreset = {
@@ -92,21 +92,21 @@ export type ChannelPreset = {
 };
 
 export const CHANNEL_PRESETS: Record<TeacherChannelId, ChannelPreset> = {
-  religious: {
-    id: "religious",
-    label: "宗教外教",
-    shortLabel: "宗教",
-    tag: "起点",
+  china: {
+    id: "china",
+    label: "中教",
+    shortLabel: "中教",
+    tag: "根基",
     recruitmentChannels: [
-      "教会/宗教学校社群网络",
-      "内推 · 同类相吸",
-      "官网投放 + 社群转化",
+      "师范/汉语国际教育毕业生",
+      "海外华人社群与内推",
+      "官网 + 公众号/小红书",
     ],
-    trainingPath: "约 25–30h：价值观对齐 · 文化情境 · 发音基础 · 社群口碑",
-    useCase: "社群信任起点 · 海外华裔家庭 · 转介绍裂变",
+    trainingPath: "约 25–30h：双语课堂 · 文化情境 · 发音校准 · 社群转介绍",
+    useCase: "LingoAce 根基 · 海外华裔家庭中文 · 转介绍裂变",
     costRange: "¥800–1,500",
     color: "#b45309",
-    basis: "江红树模式：宗教/社群路线为起点；内推 CAC 最低、达标率最高",
+    basis: "LingoAce 从中教起家；内推与社群 CAC 最低、达标率最高",
     assumptions: {
       applicantsPerMonth: 180,
       resumeToScreenRate: 0.42,
@@ -122,37 +122,6 @@ export const CHANNEL_PRESETS: Record<TeacherChannelId, ChannelPreset> = {
       channelCostBudgetCny: 22000,
       trainingCostPerTeacherCny: 1800,
       opsCostPerTeacherCny: 900,
-    },
-  },
-  "europe-us": {
-    id: "europe-us",
-    label: "欧美外教",
-    shortLabel: "欧美",
-    recruitmentChannels: [
-      "公众号/小红书简历 + 面试（江红树模式）",
-      "LinkedIn / TikTok 海外社媒",
-      "UK/US/加拿大/南非教师社群",
-    ],
-    trainingPath: "约 30–40h：分国籍口音校准 · 双语讲题 · 跨时区规范",
-    useCase: "产能主力 · 多国籍覆盖 · 英语/数学扩科",
-    costRange: "¥2,200–4,500",
-    color: "#2563eb",
-    basis: "欧美多国籍组合；社群简历+面试为竞品常见低成本通道",
-    assumptions: {
-      applicantsPerMonth: 900,
-      resumeToScreenRate: 0.22,
-      screenToDemoRate: 0.74,
-      demoToOfferRate: 0.18,
-      offerToTrainingRate: 0.88,
-      trainingCompletionRate: 0.78,
-      firstMonthQualifiedRate: 0.56,
-      retention90dRate: 0.82,
-      misalignmentRate: 0.26,
-      lowRatingRate: 0.19,
-      handoverCompleteRate: 0.74,
-      channelCostBudgetCny: 85000,
-      trainingCostPerTeacherCny: 2400,
-      opsCostPerTeacherCny: 1200,
     },
   },
   "north-america": {
@@ -185,6 +154,37 @@ export const CHANNEL_PRESETS: Record<TeacherChannelId, ChannelPreset> = {
       channelCostBudgetCny: 120000,
       trainingCostPerTeacherCny: 2800,
       opsCostPerTeacherCny: 1500,
+    },
+  },
+  "europe-us": {
+    id: "europe-us",
+    label: "欧美外教",
+    shortLabel: "欧美",
+    recruitmentChannels: [
+      "公众号/小红书简历 + 面试（江红树模式）",
+      "LinkedIn / TikTok 海外社媒",
+      "UK/US/加拿大/南非教师社群",
+    ],
+    trainingPath: "约 30–40h：分国籍口音校准 · 双语讲题 · 跨时区规范",
+    useCase: "产能主力 · 多国籍覆盖 · 英语/数学扩科",
+    costRange: "¥2,200–4,500",
+    color: "#2563eb",
+    basis: "欧美多国籍组合；社群简历+面试为竞品常见低成本通道",
+    assumptions: {
+      applicantsPerMonth: 900,
+      resumeToScreenRate: 0.22,
+      screenToDemoRate: 0.74,
+      demoToOfferRate: 0.18,
+      offerToTrainingRate: 0.88,
+      trainingCompletionRate: 0.78,
+      firstMonthQualifiedRate: 0.56,
+      retention90dRate: 0.82,
+      misalignmentRate: 0.26,
+      lowRatingRate: 0.19,
+      handoverCompleteRate: 0.74,
+      channelCostBudgetCny: 85000,
+      trainingCostPerTeacherCny: 2400,
+      opsCostPerTeacherCny: 1200,
     },
   },
   philippines: {
@@ -223,21 +223,21 @@ export const CHANNEL_PRESETS: Record<TeacherChannelId, ChannelPreset> = {
 };
 
 export const CHANNEL_IDS: TeacherChannelId[] = [
-  "religious",
-  "europe-us",
+  "china",
   "north-america",
+  "europe-us",
   "philippines",
 ];
 
 export const COMMUNITY_ROI_NOTE =
-  "内推与社群转化 CAC 通常为付费渠道的 1/3–1/5，首月达标率高出 10–15 个百分点——宗教线正是这一逻辑的起点。";
+  "内推与社群转化 CAC 通常为付费渠道的 1/3–1/5，首月达标率高出 10–15 个百分点——中教线与社群内推正是这一逻辑的起点。";
 
 export const SUBJECT_PROFILES = {
   headline: "语数英一套组织能力，三种交付画像",
   subjects: [
     { label: "语文", profile: "双语表达 · 文化情境", recruit: "华人社群 · 师范 · 内推" },
     { label: "数学", profile: "学科功底 · 英文讲题", recruit: "STEM 华人 · 欧美外教" },
-    { label: "英语", profile: "发音 · 课堂能量 · 分级阅读", recruit: "宗教→欧美→北美渠道" },
+    { label: "英语", profile: "发音 · 课堂能量 · 分级阅读", recruit: "中教→北美→欧美渠道" },
   ],
   shared: ["标签匹配", "首课陪跑", "统一 teacher_id", "AI 备课"],
 };
@@ -256,7 +256,7 @@ export const EXECUTION_PATH = {
   headline: "90 天落地，四步闭环",
   loop: ["招：渠道分轨，绑首月达标", "培：师训输出标签", "用：标签匹配排课", "证：15/30/60 天验收"],
   phases: [
-    { days: "0–15天", focus: "对齐达标定义 · 交接包 v1 · 宗教/社群渠道试点" },
+    { days: "0–15天", focus: "对齐达标定义 · 交接包 v1 · 中教/社群渠道试点" },
     { days: "16–30天", focus: "四渠道漏斗基线 · 错配率量化 · 内推 ROI 追踪" },
     { days: "31–60天", focus: "KPI 绑达标 · 标签匹配试运行 · 关停低 ROI 渠道" },
     { days: "61–90天", focus: "画像迭代 · 交接≥90% · 师资运营月报上线" },

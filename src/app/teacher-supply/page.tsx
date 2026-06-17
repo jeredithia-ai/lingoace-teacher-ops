@@ -77,13 +77,13 @@ export default function TeacherSupplyPage() {
           </div>
 
           <div className="mt-8 grid gap-2 sm:grid-cols-4">
-            {["宗教", "欧美", "北美", "菲教(规划)"].map((ch, i) => (
+            {["中教", "北美", "欧美", "菲教(规划)"].map((ch, i) => (
               <div
                 key={ch}
                 className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-center backdrop-blur-sm"
               >
                 <p className="text-[10px] text-indigo-200/70">
-                  {i === 0 ? "起点" : i === 3 ? "扩产能" : "外教线"}
+                  {i === 0 ? "根基" : i === 3 ? "扩产能" : "外教线"}
                 </p>
                 <p className="text-sm font-semibold text-white">{ch}</p>
               </div>
@@ -122,7 +122,7 @@ export default function TeacherSupplyPage() {
           <section id="channel-cards" className="lingoace-panel scroll-mt-20 p-5 sm:p-6">
             <SectionHeader
               title="师资渠道"
-              subtitle="宗教 → 欧美 → 北美 → 菲教（规划中）"
+              subtitle="中教 → 北美 → 欧美 → 菲教（规划中）"
             />
             <div className="mb-4 grid gap-2 sm:grid-cols-5">
               {RECRUITMENT_UX.map((r) => (
