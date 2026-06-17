@@ -10,7 +10,101 @@ export const META = {
 };
 
 export const CORE_JUDGMENT =
-  "师资瓶颈不在「有没有老师」，而在「付的钱和课堂交付是否一致」——选对渠道、对齐首月达标，比盲目扩招聘更重要。";
+  "师资瓶颈不在「有没有老师」，而在「付的钱和课堂交付是否一致」——4000 人池子、月招十来人，每次招聘都占池子 0.3%，比盲目扩量更需精算。";
+
+/** 池子动态模型默认输入 */
+export type PoolInputs = {
+  poolSize: number;
+  monthlyHires: number;
+  annualChurnRatePct: number;
+};
+
+export const DEFAULT_POOL_INPUTS: PoolInputs = {
+  poolSize: 4000,
+  monthlyHires: 12,
+  annualChurnRatePct: 3,
+};
+
+/** 渠道经济学参数 */
+export type ChannelEconomics = {
+  costPerHire: number;
+  timeToFillDays: number;
+  qualityIndex: number;
+  hireAllocationPct: number;
+};
+
+/** AI 杠杆输入 */
+export type AiLeverageInputs = {
+  aiScreeningEnabled: boolean;
+  aiMatchingEnabled: boolean;
+  recruiterHoursPerHireBaseline: number;
+  aiHoursSavedPerHire: number;
+  misalignmentChurnOfTotalPct: number;
+  aiMisalignmentReductionPct: number;
+  qualityScoreVarianceBefore: number;
+  qualityScoreVarianceAfter: number;
+  recruiterHourlyCostCny: number;
+  avgTeacherReplacementCostCny: number;
+};
+
+export const DEFAULT_AI_LEVERAGE: AiLeverageInputs = {
+  aiScreeningEnabled: true,
+  aiMatchingEnabled: true,
+  recruiterHoursPerHireBaseline: 8,
+  aiHoursSavedPerHire: 3.5,
+  misalignmentChurnOfTotalPct: 35,
+  aiMisalignmentReductionPct: 28,
+  qualityScoreVarianceBefore: 1.8,
+  qualityScoreVarianceAfter: 1.1,
+  recruiterHourlyCostCny: 120,
+  avgTeacherReplacementCostCny: 4500,
+};
+
+/** 数据口径说明 */
+export const DATA_METHODOLOGY = {
+  headline: "数据口径说明",
+  intro:
+    "本算盘基于 ~4000 人师资池、月招聘 ~12 人的真实运营量级推演，非大规模招聘场景。默认值可替换为内部数据。",
+  assumptions: [
+    {
+      label: "池子规模",
+      detail: "默认 4000 = 在职可排课师资总量，非从零起步。",
+    },
+    {
+      label: "月招聘量",
+      detail: "默认 12 人/月 ≈ 一打，年池刷新率 3.6%（12×12÷4000）。每次招聘占池子 0.3%。",
+    },
+    {
+      label: "年流失率",
+      detail: "默认 3%/年 → 月流失 ~10 人（4000×3%÷12）。净变化 ≈ +2 人/月，池子缓增。与月招 12 人形成「小批量精算」稳态。",
+    },
+    {
+      label: "漏斗投递量",
+      detail: "四渠道合计 ~65 人/月投递（非数千），与 12 人招聘目标匹配。",
+    },
+    {
+      label: "渠道配额",
+      detail: "中教 42% · 北美 17% · 欧美 33% · 菲教 8% = 月 12 人分配。",
+    },
+  ],
+  problemTies: [
+    {
+      problemId: "misalign",
+      metric: "错配率 × AI 匹配降流失",
+      logic: "月流失中约 35% 归因于招聘交付错位；AI 标签匹配可削减 28%。",
+    },
+    {
+      problemId: "channel-cost",
+      metric: "渠道配额 × 单师 CAC × 池均成本",
+      logic: "12 人/月下，北美 2 人 CAC 是中教 5 人的 3–4 倍，结构决定月总花费。",
+    },
+    {
+      problemId: "ai-match",
+      metric: "AI 筛简历节省 × 质量方差",
+      logic: "小批量下每人节省 3.5h 招聘工时；质量方差从 1.8→1.1 意味着课堂一致性提升。",
+    },
+  ],
+};
 
 export const LINGOACE_CONTEXT =
   "LingoAce 从海外华裔家庭中文教育起步，扩至英语、数学后，招聘承诺与课堂交付的错位、多渠道成本失控成为组织核心挑战。";
@@ -88,6 +182,7 @@ export type ChannelPreset = {
   costRange: string;
   color: string;
   assumptions: Assumptions;
+  economics: ChannelEconomics;
   basis: string;
 };
 
@@ -107,8 +202,14 @@ export const CHANNEL_PRESETS: Record<TeacherChannelId, ChannelPreset> = {
     costRange: "¥800–1,500",
     color: "#b45309",
     basis: "LingoAce 从中教起家；内推与社群 CAC 最低、达标率最高",
+    economics: {
+      costPerHire: 1200,
+      timeToFillDays: 18,
+      qualityIndex: 82,
+      hireAllocationPct: 42,
+    },
     assumptions: {
-      applicantsPerMonth: 180,
+      applicantsPerMonth: 18,
       resumeToScreenRate: 0.42,
       screenToDemoRate: 0.78,
       demoToOfferRate: 0.22,
@@ -119,7 +220,7 @@ export const CHANNEL_PRESETS: Record<TeacherChannelId, ChannelPreset> = {
       misalignmentRate: 0.18,
       lowRatingRate: 0.12,
       handoverCompleteRate: 0.8,
-      channelCostBudgetCny: 22000,
+      channelCostBudgetCny: 4500,
       trainingCostPerTeacherCny: 1800,
       opsCostPerTeacherCny: 900,
     },
@@ -139,8 +240,14 @@ export const CHANNEL_PRESETS: Record<TeacherChannelId, ChannelPreset> = {
     costRange: "¥3,500–6,000",
     color: "#4f46e5",
     basis: "VIPKID 北美招聘公开报道；LinkedIn 投放 CAC 偏高",
+    economics: {
+      costPerHire: 4800,
+      timeToFillDays: 35,
+      qualityIndex: 88,
+      hireAllocationPct: 17,
+    },
     assumptions: {
-      applicantsPerMonth: 600,
+      applicantsPerMonth: 12,
       resumeToScreenRate: 0.2,
       screenToDemoRate: 0.7,
       demoToOfferRate: 0.15,
@@ -151,7 +258,7 @@ export const CHANNEL_PRESETS: Record<TeacherChannelId, ChannelPreset> = {
       misalignmentRate: 0.28,
       lowRatingRate: 0.2,
       handoverCompleteRate: 0.7,
-      channelCostBudgetCny: 120000,
+      channelCostBudgetCny: 18000,
       trainingCostPerTeacherCny: 2800,
       opsCostPerTeacherCny: 1500,
     },
@@ -170,8 +277,14 @@ export const CHANNEL_PRESETS: Record<TeacherChannelId, ChannelPreset> = {
     costRange: "¥2,200–4,500",
     color: "#2563eb",
     basis: "欧美多国籍组合；社群简历+面试为竞品常见低成本通道",
+    economics: {
+      costPerHire: 3200,
+      timeToFillDays: 28,
+      qualityIndex: 78,
+      hireAllocationPct: 33,
+    },
     assumptions: {
-      applicantsPerMonth: 900,
+      applicantsPerMonth: 25,
       resumeToScreenRate: 0.22,
       screenToDemoRate: 0.74,
       demoToOfferRate: 0.18,
@@ -182,7 +295,7 @@ export const CHANNEL_PRESETS: Record<TeacherChannelId, ChannelPreset> = {
       misalignmentRate: 0.26,
       lowRatingRate: 0.19,
       handoverCompleteRate: 0.74,
-      channelCostBudgetCny: 85000,
+      channelCostBudgetCny: 12000,
       trainingCostPerTeacherCny: 2400,
       opsCostPerTeacherCny: 1200,
     },
@@ -203,8 +316,14 @@ export const CHANNEL_PRESETS: Record<TeacherChannelId, ChannelPreset> = {
     costRange: "¥900–1,800",
     color: "#059669",
     basis: "江红树等竞品规划菲教但尚未落地；说客/哒哒菲教基地为行业参照",
+    economics: {
+      costPerHire: 1400,
+      timeToFillDays: 22,
+      qualityIndex: 68,
+      hireAllocationPct: 8,
+    },
     assumptions: {
-      applicantsPerMonth: 1500,
+      applicantsPerMonth: 10,
       resumeToScreenRate: 0.28,
       screenToDemoRate: 0.8,
       demoToOfferRate: 0.2,
@@ -215,7 +334,7 @@ export const CHANNEL_PRESETS: Record<TeacherChannelId, ChannelPreset> = {
       misalignmentRate: 0.3,
       lowRatingRate: 0.22,
       handoverCompleteRate: 0.68,
-      channelCostBudgetCny: 55000,
+      channelCostBudgetCny: 3500,
       trainingCostPerTeacherCny: 3200,
       opsCostPerTeacherCny: 1400,
     },

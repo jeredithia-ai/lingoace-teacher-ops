@@ -16,8 +16,10 @@ import {
   AI_TEACHER_MODEL,
   EXECUTION_PATH,
   COMMUNITY_ROI_NOTE,
+  DATA_METHODOLOGY,
+  DEFAULT_POOL_INPUTS,
 } from "./data";
-import { compareChannels, formatCny } from "./model";
+import { compareChannels, computeAnnualRefreshPct, formatCny } from "./model";
 import {
   LabelChip,
   ProblemCard,
@@ -29,6 +31,7 @@ import {
 export default function TeacherSupplyPage() {
   const [activeTop, setActiveTop] = useState("overview");
   const channelPreview = compareChannels();
+  const annualRefreshPct = computeAnnualRefreshPct(DEFAULT_POOL_INPUTS);
 
   useEffect(() => {
     const ids = TOP_NAV.map((n) => n.id);
@@ -77,15 +80,18 @@ export default function TeacherSupplyPage() {
           </div>
 
           <div className="mt-8 grid gap-2 sm:grid-cols-4">
-            {["中教", "北美", "欧美", "菲教(规划)"].map((ch, i) => (
+            {[
+              { label: "师资池", value: `${DEFAULT_POOL_INPUTS.poolSize.toLocaleString("zh-CN")} 人` },
+              { label: "月招聘", value: `${DEFAULT_POOL_INPUTS.monthlyHires} 人/月` },
+              { label: "年流失", value: `${DEFAULT_POOL_INPUTS.annualChurnRatePct}%` },
+              { label: "年刷新率", value: `${Math.round(annualRefreshPct * 10) / 10}%` },
+            ].map((stat) => (
               <div
-                key={ch}
+                key={stat.label}
                 className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-center backdrop-blur-sm"
               >
-                <p className="text-[10px] text-indigo-200/70">
-                  {i === 0 ? "根基" : i === 3 ? "扩产能" : "外教线"}
-                </p>
-                <p className="text-sm font-semibold text-white">{ch}</p>
+                <p className="text-[10px] text-indigo-200/70">{stat.label}</p>
+                <p className="text-sm font-semibold text-white">{stat.value}</p>
               </div>
             ))}
           </div>
@@ -200,7 +206,10 @@ export default function TeacherSupplyPage() {
 
         <div id="action" className="scroll-mt-16 space-y-6">
           <section id="calculator" className="lingoace-panel scroll-mt-20 p-5 sm:p-6">
-            <SectionHeader title="数据算盘" subtitle="四渠道 CAC 与月成本并排对比" />
+            <SectionHeader
+              title="数据算盘"
+              subtitle={`${DEFAULT_POOL_INPUTS.poolSize.toLocaleString("zh-CN")} 人池 · 月招 ${DEFAULT_POOL_INPUTS.monthlyHires} 人 · 四渠道配额与池动态`}
+            />
             <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
               {channelPreview.map((ch) => (
                 <div
@@ -218,14 +227,35 @@ export default function TeacherSupplyPage() {
                   </div>
                   <p className="mt-3 text-2xl font-bold text-slate-900">
                     {ch.qualified}
-                    <span className="ml-1 text-xs font-medium text-slate-500">人/月</span>
+                    <span className="ml-1 text-xs font-medium text-slate-500">人/月配额</span>
                   </p>
                   <p className="mt-2 text-sm font-semibold text-indigo-700">
-                    {formatCny(ch.cac)}
+                    {formatCny(ch.monthlyTotalCost)}
                   </p>
-                  <p className="text-[10px] text-slate-400">单师 CAC · {ch.costRange}</p>
+                  <p className="text-[10px] text-slate-400">月渠道花费 · {ch.costRange}</p>
                 </div>
               ))}
+            </div>
+            <div className="mt-5 rounded-xl border border-slate-100 bg-slate-50/50 p-4">
+              <p className="text-xs font-bold text-slate-700">{DATA_METHODOLOGY.headline}</p>
+              <p className="mt-1 text-xs leading-relaxed text-slate-500">{DATA_METHODOLOGY.intro}</p>
+              <ul className="mt-3 space-y-2">
+                {DATA_METHODOLOGY.assumptions.map((a) => (
+                  <li key={a.label} className="text-xs text-slate-600">
+                    <span className="font-semibold text-indigo-700">{a.label}：</span>
+                    {a.detail}
+                  </li>
+                ))}
+              </ul>
+              <div className="mt-4 space-y-2 border-t border-slate-200/80 pt-4">
+                <p className="text-xs font-bold text-slate-700">三大问题 ↔ 数据模型</p>
+                {DATA_METHODOLOGY.problemTies.map((t) => (
+                  <div key={t.problemId} className="rounded-lg border border-slate-100 bg-white px-3 py-2">
+                    <p className="text-xs font-semibold text-slate-800">{t.metric}</p>
+                    <p className="mt-0.5 text-[11px] text-slate-500">{t.logic}</p>
+                  </div>
+                ))}
+              </div>
             </div>
             <div className="mt-5 flex justify-center">
               <Link
