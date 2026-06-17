@@ -40,6 +40,8 @@ export function compareChannels() {
       label: result.preset.label,
       shortLabel: result.preset.shortLabel,
       color: result.preset.color,
+      planned: result.preset.planned ?? false,
+      tag: result.preset.tag,
       qualified: result.funnel.qualified,
       cac: result.cac,
       monthlyTotalCost: result.monthlyTotalCost,

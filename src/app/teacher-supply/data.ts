@@ -1,247 +1,87 @@
-/* ── 师资供给与匹配系统 · 项目作品集数据 ── */
+/* ── 师资供给与匹配 · 精简版 ── */
 
 import type { Assumptions } from "../teacher-ops/data";
 
 export const META = {
-  title: "师资供给与匹配系统",
+  title: "师资供给与匹配",
   author: "Selena",
-  subtitle: "AI 时代在线教育的师资运营实践 — 招聘、成本、匹配、交付一条链",
-  disclaimer:
-    "个人项目作品集，非 LingoAce 官方数据。默认值对齐行业公开报道与区间推演；计算器可替换为本公司真实数据。",
+  subtitle: "从宗教社群出发，搭建全球化师资渠道 — 招聘、成本、匹配一条链",
+  disclaimer: "个人项目作品集，非 LingoAce 官方数据。默认值来自行业公开区间推演，计算器可替换真实数据。",
 };
 
-/** 核心判断：一句话定调 */
 export const CORE_JUDGMENT =
-  "在线教育的师资瓶颈不在「有没有老师」，而在「首月能不能达标交付」——招聘、师训、排课必须同一条数据链，否则成本只会越来越高。";
+  "师资瓶颈不在「有没有老师」，而在「付的钱和课堂交付是否一致」——选对渠道、对齐首月达标，比盲目扩招聘更重要。";
 
-/** 五个问题 · 问题 → 思路 → 解法 */
+export const LINGOACE_CONTEXT =
+  "LingoAce 从海外华裔家庭中文教育起步，扩至英语、数学后，招聘承诺与课堂交付的错位、多渠道成本失控成为组织核心挑战。";
+
+/** 三个问题 · 问题 → 思路 → 解法 */
 export const PROBLEM_CARDS = [
   {
     id: "misalign",
-    title: "招聘—培训—交付错位",
+    title: "招聘与交付错位",
     severity: "高" as const,
-    problem:
-      "简历好看、师训结业，首月家长却说「不合适」——招聘看证书，交付看课堂感受，中间没有统一标准。",
-    thinking:
-      "多数「老师不行」其实是师生不匹配，不是能力问题。师训结束就应输出结构化标签，排课按标签匹配而非只看档期。",
-    solution:
-      "建立标准交接包：试讲 rubric → 师训多维标签 → 学员标签双向匹配；错配与能力不达标分开统计。",
-    verify: "错配率、首课换师率、交接完整率",
+    problem: "招聘时承诺的发音标准、互动风格，首月课堂却够不上——家长付 A 线价格，拿到 B 线交付。",
+    thinking: "多数「老师不行」是错配而非能力差。师训结业就应输出标签，排课按标签匹配。",
+    solution: "统一交接包：试讲 rubric → 师训标签 → 学员标签双向匹配；错配与能力问题分开统计。",
   },
   {
-    id: "recruit-cost",
-    title: "合格师资难招、成本走高",
+    id: "channel-cost",
+    title: "渠道结构与成本控制",
     severity: "高" as const,
-    problem:
-      "北美/欧美外教供给竞争白热化，简历量大但达标率低；培训期流失抬高隐性成本，单师全链路 CAC 难核算。",
-    thinking:
-      "招聘 KPI 应绑定「首月达标人数」而非「录用人数」。用达标反推画像，用渠道 ROI 决定预算分配。",
-    solution:
-      "漏斗分渠道监控 + 单师 CAC（按达标人数摊销）+ 关停低 ROI 渠道；转介绍/内推作为核心低成本通道。",
-    verify: "首月达标人数、分渠道 CAC、漏斗瓶颈环节",
+    problem: "宗教、欧美、北美、菲教四条线成本差 3–5 倍，招聘路径完全不同，却共用一套 KPI。",
+    thinking: "竞品江红树从宗教/社群路线起步，小红书与公众号转化欧美外教；菲教是规划而非现状。渠道要分轨算账。",
+    solution: "四渠道矩阵分轨招聘、师训、CAC 看板；内推/社群作为低成本高质量通道优先投入。",
   },
   {
-    id: "global-mix",
-    title: "全球化师资组合缺乏模型",
-    severity: "高" as const,
-    problem:
-      "北美外教建立品牌信任但 CAC 高；菲教扩产能降本但师训质检需加码；各区域各自为政，全球人才库未打通。",
-    thinking:
-      "不是单一路线，而是「品牌线 + 产能线」动态组合。竞品实践（如江红树：公众号简历+面试招欧美外教）说明渠道要分区域建模。",
-    solution:
-      "师资渠道矩阵：北美/欧美/菲教分轨招聘、分轨师训、分区域 CAC 看板；时区排班中枢化。",
-    verify: "分区域 CAC、远程师训结业率、跨时区完课率",
-  },
-  {
-    id: "subject-profile",
-    title: "多学科师资画像割裂",
+    id: "ai-match",
+    title: "AI 时代师资匹配",
     severity: "较高" as const,
-    problem:
-      "语文、数学、英语各自招师、各自师训，teacher_id 不统一；共享职能重复建设，质检口径不一致。",
-    thinking:
-      "不是三套团队，而是一套组织能力、三种交付画像。统一主数据 + 项目标签分层，师训模块共享与分轨拆分。",
-    solution:
-      "统一 teacher_id 主档；共享招培用证基础设施，师训/质检 rubric 按学科分轨；挖掘跨项目复用师资。",
-    verify: "跨项目师资复用率、共享师训完课率、项目间错配投诉占比",
-  },
-  {
-    id: "ai-gap",
-    title: "AI 时代师资能力模型滞后",
-    severity: "较高" as const,
-    problem:
-      "新师备课耗时长，课后反馈质量参差，试讲评估全靠人工；行业已在用 AI 降本，师训标准未跟上。",
-    thinking:
-      "AI 不替代教师，但重新定义合格教师的产能边界。LingoAce 已有 AI 备课/反馈能力，关键是如何纳入师训结业标准。",
-    solution:
-      "师训新增「人机协同」模块；AI 备课/反馈工具纳入考核；试讲引入 AI 陪练预评分，释放师训师产能。",
-    verify: "新师 AI 工具采用率、单位师训成本达标产出、反馈 24h 达成率",
+    problem: "AI 改变了老师该做什么，但匹配仍停留在「好老师/坏老师」，忽视师生契合与社群转化价值。",
+    thinking: "AI 接管重复劳动，人类守住情感连接与即兴互动。合格标准要纳入人机协同，社群转介绍是最高质量渠道。",
+    solution: "师训新增人机协同模块；AI 备课/反馈纳入考核；官网/LinkedIn/TikTok/内推/社群 ROI 分渠道追踪。",
   },
 ];
 
-/** 师资渠道矩阵 */
-export const CHANNEL_MATRIX = {
-  headline: "全球化师资组合：分渠道招聘、分轨师训、分区域算账",
-  columns: ["北美外教", "欧美外教", "菲教"] as const,
-  rows: [
-    {
-      axis: "典型招聘渠道",
-      values: [
-        "LinkedIn / Indeed · 教师转介绍 · 北美教师社群",
-        "公众号/官网简历投递 + 面试（江红树模式）· UK/US/加拿大/南非社群 · 招聘网站",
-        "菲教供应商/海外基地 · 本地招聘网站 · 教师转介绍",
-      ],
-    },
-    {
-      axis: "成本区间（单师 CAC）",
-      values: ["¥3,500–6,000", "¥2,200–4,500", "¥900–1,800"],
-    },
-    {
-      axis: "适用场景",
-      values: [
-        "品牌信任 · 高客单 · 华裔家庭口语/阅读",
-        "产能主力 · 多国籍覆盖 · 扩科试验",
-        "扩产能 · 降本 · 大班/低价产品线",
-      ],
-    },
-    {
-      axis: "师训差异",
-      values: [
-        "发音/互动标准高 · 课堂能量 rubric · 品牌话术",
-        "分国籍口音校准 · 双语讲题能力评估 · 跨时区设备规范",
-        "口音与互动强化 · 远程师训陪跑加码 · 质检抽样率提高",
-      ],
-    },
-    {
-      axis: "培训周期参考",
-      values: ["约 40h（行业公开参照）", "约 30–40h + 口音校准", "约 40–50h（互动/口音加码）"],
-    },
-  ],
-};
+/** 顶层导航：3 个一级区块 */
+export const TOP_NAV = [
+  { id: "overview", label: "判断与问题" },
+  { id: "channels", label: "渠道体系" },
+  { id: "action", label: "算盘与路径" },
+] as const;
 
-/** 多学科师资画像差异（无 CEO 框架） */
-export const SUBJECT_PROFILES = {
-  headline: "语数英共用一套组织能力，三种交付画像",
-  subjects: [
-    {
-      label: "语文",
-      profile: "双语母语级表达 · 结构化写作 · 文化情境",
-      recruit: "华人教师社群 · 师范/中文系 · 内推",
-      train: "汉字书写/阅读策略 · 文化情境师训",
-    },
-    {
-      label: "数学",
-      profile: "学科功底 · 英文讲题 · 逻辑可视化",
-      recruit: "STEM 背景华人 · 师范数学 · 跨学科",
-      train: "双语解题话术 · 教具与可视化",
-    },
-    {
-      label: "英语",
-      profile: "发音标准 · 课堂能量 · 分级阅读/PBL",
-      recruit: "北美/欧美/菲外教 · 社群 · 转介绍",
-      train: "发音/互动/阅读分级 · 人机协同模块",
-    },
-  ],
-  shared: ["师生标签匹配", "首课陪跑", "质检 rubric", "AI 备课助手", "统一 teacher_id"],
-};
-
-/** AI 时代师资模型 — 务实视角 */
-export const AI_TEACHER_MODEL = {
-  headline: "行业趋势：AI 放大产能，人类守住交付质量",
-  layers: [
-    {
-      id: "human",
-      label: "人类守住",
-      items: [
-        "情感连接与文化情境",
-        "课堂即兴互动与动机激发",
-        "复杂错因诊断与个性化纠偏",
-        "家校沟通与信任建立",
-      ],
-      color: "#4f46e5",
-    },
-    {
-      id: "ai",
-      label: "AI 接管重复劳动",
-      items: [
-        "备课与教案生成（按学员标签定制）",
-        "课后反馈草稿 + 作业批改初筛",
-        "试讲/模拟课 AI 陪练与 rubric 预评分",
-        "多语言质检抽样与异常课堂预警",
-      ],
-      color: "#7c3aed",
-    },
-    {
-      id: "org",
-      label: "组织需落地",
-      items: [
-        "「人机协同」纳入师训结业标准",
-        "AI 使用合规与儿童隐私红线",
-        "产能指标：单位师训成本下的达标产出",
-      ],
-      color: "#059669",
-    },
-  ],
-  lingoaceNote:
-    "LingoAce 已有 AI 备课、智能反馈等产品能力 — 师资运营侧关键是把这些工具嵌入师训与质检流程，而非另起炉灶。",
-};
-
-/** 运营闭环 */
-export const OPERATIONS_LOOP = [
-  { label: "招", title: "精准招聘", desc: "用首月达标反推画像", output: "合格候选人" },
-  { label: "培", title: "快速上岗", desc: "师训对齐真实课堂 + 输出标签", output: "可排课教师" },
-  { label: "用", title: "匹配交付", desc: "标签匹配排课 + 质检激励", output: "稳定授课" },
-  { label: "证", title: "数据验证", desc: "15/30/60 天逐级验收", output: "反哺画像与渠道" },
+/** 招聘渠道 · 用户实战经验 */
+export const RECRUITMENT_UX = [
+  { label: "官网", desc: "品牌入口 · 简历收集" },
+  { label: "LinkedIn", desc: "北美/欧美外教定向触达" },
+  { label: "TikTok", desc: "海外社媒短视频获客" },
+  { label: "内推", desc: "同类相吸 · CAC 最低" },
+  { label: "社群", desc: "公众号/小红书 简历+面试" },
 ];
 
-/** 90 天执行路径 */
-export const ROADMAP_90 = [
-  {
-    phase: "0–15 天",
-    title: "对齐与启动",
-    color: "#6366F1",
-    goals: ["统一 teacher_id 与首月达标定义", "交接包 v1", "首课陪跑机制"],
-    actions: ["三方对齐达标 checklist", "梳理 ATS/LMS/课堂可导出字段", "新师入职必完成交接"],
-  },
-  {
-    phase: "16–30 天",
-    title: "基线与量化",
-    color: "#2563EB",
-    goals: ["漏斗基线", "错配率量化", "分渠道 CAC 试点"],
-    actions: ["导出近 3 月招聘→首月数据", "计算错配率与低分占比", "英语线渠道 ROI 初版"],
-  },
-  {
-    phase: "31–60 天",
-    title: "机制固化",
-    color: "#F59E0B",
-    goals: ["KPI 绑达标", "标签匹配试运行", "A/B/C 分级排课"],
-    actions: ["试讲 rubric 挂钩首月指标", "师生标签匹配排课试点", "关停低 ROI 渠道"],
-  },
-  {
-    phase: "61–90 天",
-    title: "闭环复盘",
-    color: "#10B981",
-    goals: ["画像 v2", "交接≥90%", "CAC 可解释"],
-    actions: ["反向画像迭代", "60 天留存决策", "师资运营月报模板上线"],
-  },
-];
-
-export const MAIN_NAV = [
+export const SIDE_NAV = [
   { id: "judgment", label: "核心判断" },
-  { id: "problems", label: "五个问题" },
-  { id: "channels", label: "渠道矩阵" },
+  { id: "problems", label: "三个问题" },
+  { id: "channel-cards", label: "师资渠道" },
   { id: "subjects", label: "学科画像" },
-  { id: "ai-model", label: "AI 模型" },
+  { id: "ai-model", label: "AI 时代" },
   { id: "calculator", label: "数据算盘" },
-  { id: "roadmap", label: "90天路径" },
-];
+  { id: "path", label: "执行路径" },
+] as const;
 
-/** 师资渠道计算器预设 */
-export type TeacherChannelId = "north-america" | "europe-us" | "philippines";
+/** 师资渠道 · 顺序：宗教 → 欧美 → 北美 → 菲教(规划) */
+export type TeacherChannelId =
+  | "religious"
+  | "europe-us"
+  | "north-america"
+  | "philippines";
 
 export type ChannelPreset = {
   id: TeacherChannelId;
   label: string;
   shortLabel: string;
+  tag?: string;
+  planned?: boolean;
   recruitmentChannels: string[];
   trainingPath: string;
   useCase: string;
@@ -252,36 +92,36 @@ export type ChannelPreset = {
 };
 
 export const CHANNEL_PRESETS: Record<TeacherChannelId, ChannelPreset> = {
-  "north-america": {
-    id: "north-america",
-    label: "北美外教",
-    shortLabel: "北美",
+  religious: {
+    id: "religious",
+    label: "宗教外教",
+    shortLabel: "宗教",
+    tag: "起点",
     recruitmentChannels: [
-      "LinkedIn / Indeed 定向投放",
-      "北美教师社群与 KOL",
-      "在职教师转介绍 / 内推",
+      "教会/宗教学校社群网络",
+      "内推 · 同类相吸",
+      "官网投放 + 社群转化",
     ],
-    trainingPath:
-      "约 40h 师训：发音标准 · 课堂能量 rubric · 品牌话术 · 设备/时区规范 · AI 备课工具入门",
-    useCase: "品牌信任线 · 高客单华裔家庭 · 口语/精读主力",
-    costRange: "¥3,500–6,000",
-    color: "#4f46e5",
-    basis: "VIPKID 北美招聘公开报道；LinkedIn 投放 CAC 偏高；试讲筛选严",
+    trainingPath: "约 25–30h：价值观对齐 · 文化情境 · 发音基础 · 社群口碑",
+    useCase: "社群信任起点 · 海外华裔家庭 · 转介绍裂变",
+    costRange: "¥800–1,500",
+    color: "#b45309",
+    basis: "江红树模式：宗教/社群路线为起点；内推 CAC 最低、达标率最高",
     assumptions: {
-      applicantsPerMonth: 600,
-      resumeToScreenRate: 0.2,
-      screenToDemoRate: 0.7,
-      demoToOfferRate: 0.15,
-      offerToTrainingRate: 0.86,
-      trainingCompletionRate: 0.75,
-      firstMonthQualifiedRate: 0.52,
-      retention90dRate: 0.8,
-      misalignmentRate: 0.28,
-      lowRatingRate: 0.2,
-      handoverCompleteRate: 0.7,
-      channelCostBudgetCny: 120000,
-      trainingCostPerTeacherCny: 2800,
-      opsCostPerTeacherCny: 1500,
+      applicantsPerMonth: 180,
+      resumeToScreenRate: 0.42,
+      screenToDemoRate: 0.78,
+      demoToOfferRate: 0.22,
+      offerToTrainingRate: 0.92,
+      trainingCompletionRate: 0.82,
+      firstMonthQualifiedRate: 0.62,
+      retention90dRate: 0.88,
+      misalignmentRate: 0.18,
+      lowRatingRate: 0.12,
+      handoverCompleteRate: 0.8,
+      channelCostBudgetCny: 22000,
+      trainingCostPerTeacherCny: 1800,
+      opsCostPerTeacherCny: 900,
     },
   },
   "europe-us": {
@@ -289,16 +129,15 @@ export const CHANNEL_PRESETS: Record<TeacherChannelId, ChannelPreset> = {
     label: "欧美外教",
     shortLabel: "欧美",
     recruitmentChannels: [
-      "公众号/官网简历投递 + 线上面试（江红树模式）",
-      "UK / 美国 / 加拿大 / 南非教师社群",
-      "招聘网站 · 社交媒体 · 转介绍",
+      "公众号/小红书简历 + 面试（江红树模式）",
+      "LinkedIn / TikTok 海外社媒",
+      "UK/US/加拿大/南非教师社群",
     ],
-    trainingPath:
-      "约 30–40h：分国籍口音校准 · 双语讲题能力 · 跨时区协作 · 互动风格标签化",
+    trainingPath: "约 30–40h：分国籍口音校准 · 双语讲题 · 跨时区规范",
     useCase: "产能主力 · 多国籍覆盖 · 英语/数学扩科",
     costRange: "¥2,200–4,500",
-    color: "#2563EB",
-    basis: "欧美多国籍组合；公众号简历+面试为竞品常见低成本通道",
+    color: "#2563eb",
+    basis: "欧美多国籍组合；社群简历+面试为竞品常见低成本通道",
     assumptions: {
       applicantsPerMonth: 900,
       resumeToScreenRate: 0.22,
@@ -316,21 +155,54 @@ export const CHANNEL_PRESETS: Record<TeacherChannelId, ChannelPreset> = {
       opsCostPerTeacherCny: 1200,
     },
   },
+  "north-america": {
+    id: "north-america",
+    label: "北美外教",
+    shortLabel: "北美",
+    tag: "高端线",
+    recruitmentChannels: [
+      "LinkedIn / Indeed 定向投放",
+      "北美教师社群与 KOL",
+      "在职教师内推",
+    ],
+    trainingPath: "约 40h：发音标准 · 课堂能量 rubric · 品牌话术 · AI 工具入门",
+    useCase: "品牌信任 · 高客单华裔家庭 · 口语/精读",
+    costRange: "¥3,500–6,000",
+    color: "#4f46e5",
+    basis: "VIPKID 北美招聘公开报道；LinkedIn 投放 CAC 偏高",
+    assumptions: {
+      applicantsPerMonth: 600,
+      resumeToScreenRate: 0.2,
+      screenToDemoRate: 0.7,
+      demoToOfferRate: 0.15,
+      offerToTrainingRate: 0.86,
+      trainingCompletionRate: 0.75,
+      firstMonthQualifiedRate: 0.52,
+      retention90dRate: 0.8,
+      misalignmentRate: 0.28,
+      lowRatingRate: 0.2,
+      handoverCompleteRate: 0.7,
+      channelCostBudgetCny: 120000,
+      trainingCostPerTeacherCny: 2800,
+      opsCostPerTeacherCny: 1500,
+    },
+  },
   philippines: {
     id: "philippines",
     label: "菲教",
     shortLabel: "菲教",
+    tag: "规划中",
+    planned: true,
     recruitmentChannels: [
-      "菲教供应商 / 马尼拉等海外基地",
-      "本地招聘网站与教师社群",
+      "菲教供应商 / 海外基地（规划）",
+      "本地招聘网站",
       "基地内转介绍",
     ],
-    trainingPath:
-      "约 40–50h：口音与互动强化 · 远程师训陪跑加码 · 质检抽样率提高 · 课堂能量专项",
-    useCase: "扩产能 · 降本 · 大班/低价产品线试验",
+    trainingPath: "约 40–50h：口音强化 · 远程陪跑加码 · 质检抽样提高",
+    useCase: "扩产能 · 降本 · 大班/低价线（竞品规划，尚未执行）",
     costRange: "¥900–1,800",
     color: "#059669",
-    basis: "说客菲教基地；哒哒课酬参照；师训与质检投入需高于欧美线",
+    basis: "江红树等竞品规划菲教但尚未落地；说客/哒哒菲教基地为行业参照",
     assumptions: {
       applicantsPerMonth: 1500,
       resumeToScreenRate: 0.28,
@@ -351,7 +223,42 @@ export const CHANNEL_PRESETS: Record<TeacherChannelId, ChannelPreset> = {
 };
 
 export const CHANNEL_IDS: TeacherChannelId[] = [
-  "north-america",
+  "religious",
   "europe-us",
+  "north-america",
   "philippines",
 ];
+
+export const COMMUNITY_ROI_NOTE =
+  "内推与社群转化 CAC 通常为付费渠道的 1/3–1/5，首月达标率高出 10–15 个百分点——宗教线正是这一逻辑的起点。";
+
+export const SUBJECT_PROFILES = {
+  headline: "语数英一套组织能力，三种交付画像",
+  subjects: [
+    { label: "语文", profile: "双语表达 · 文化情境", recruit: "华人社群 · 师范 · 内推" },
+    { label: "数学", profile: "学科功底 · 英文讲题", recruit: "STEM 华人 · 欧美外教" },
+    { label: "英语", profile: "发音 · 课堂能量 · 分级阅读", recruit: "宗教→欧美→北美渠道" },
+  ],
+  shared: ["标签匹配", "首课陪跑", "统一 teacher_id", "AI 备课"],
+};
+
+export const AI_TEACHER_MODEL = {
+  headline: "AI 放大产能，人类守住交付与匹配",
+  ties: [
+    { problem: "招聘与交付错位", ai: "AI 试讲预评 + 标签化交接", human: "情感连接 · 即兴互动" },
+    { problem: "渠道成本控制", ai: "分渠道漏斗自动监控", human: "社群口碑 · 内推裂变" },
+    { problem: "师资匹配", ai: "备课/反馈/质检自动化", human: "错因诊断 · 家校信任" },
+  ],
+  note: "LingoAce 已有 AI 备课与智能反馈——关键是嵌入师训结业标准，而非另起炉灶。",
+};
+
+export const EXECUTION_PATH = {
+  headline: "90 天落地，四步闭环",
+  loop: ["招：渠道分轨，绑首月达标", "培：师训输出标签", "用：标签匹配排课", "证：15/30/60 天验收"],
+  phases: [
+    { days: "0–15天", focus: "对齐达标定义 · 交接包 v1 · 宗教/社群渠道试点" },
+    { days: "16–30天", focus: "四渠道漏斗基线 · 错配率量化 · 内推 ROI 追踪" },
+    { days: "31–60天", focus: "KPI 绑达标 · 标签匹配试运行 · 关停低 ROI 渠道" },
+    { days: "61–90天", focus: "画像迭代 · 交接≥90% · 师资运营月报上线" },
+  ],
+};

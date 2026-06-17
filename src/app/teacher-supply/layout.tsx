@@ -4,7 +4,7 @@ import "../teacher-ops/lingoace.css";
 export const metadata: Metadata = {
   title: "师资供给与匹配系统 | Selena",
   description:
-    "AI 时代在线教育师资运营实践 — 招聘渠道矩阵、成本算盘、师生匹配与 90 天执行路径",
+    "从中教根基出发的全球化师资渠道 — 招聘、成本、匹配与数据算盘",
 };
 
 export default function TeacherSupplyLayout({

@@ -65,9 +65,9 @@ const INPUT_GROUPS = [
 ];
 
 export default function ChannelCalculatorPage() {
-  const [activeChannel, setActiveChannel] = useState<TeacherChannelId>("europe-us");
+  const [activeChannel, setActiveChannel] = useState<TeacherChannelId>("religious");
   const [assumptions, setAssumptions] = useState<Assumptions>(
-    CHANNEL_PRESETS["europe-us"].assumptions
+    CHANNEL_PRESETS.religious.assumptions
   );
   const [expandedField, setExpandedField] = useState<keyof Assumptions | null>(null);
 
@@ -111,72 +111,71 @@ export default function ChannelCalculatorPage() {
         <div className="relative mx-auto max-w-6xl px-6 py-8">
           <Link
             href="/teacher-supply"
-            className="mb-6 inline-flex items-center gap-1.5 text-sm text-indigo-200 transition hover:text-white"
+            className="mb-5 inline-flex items-center gap-1.5 text-sm text-indigo-200 transition hover:text-white"
           >
             <ArrowLeft className="h-4 w-4" />
             返回主站
           </Link>
           <div className="flex items-center gap-3">
-            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-white/15 backdrop-blur-sm">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/15 backdrop-blur-sm">
               <Calculator className="h-5 w-5 text-white" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-white">多渠道数据算盘</h1>
+              <h1 className="text-xl font-bold text-white sm:text-2xl">多渠道数据算盘</h1>
               <p className="text-sm text-indigo-200/80">
-                北美 · 欧美 · 菲教 — CAC、漏斗、月成本并排对比
+                宗教 · 欧美 · 北美 · 菲教（规划）— CAC、漏斗、月成本对比
               </p>
             </div>
           </div>
         </div>
       </header>
 
-      <main className="mx-auto max-w-6xl space-y-6 px-6 py-8">
-        <div className="flex gap-3 rounded-2xl border border-amber-200/80 bg-gradient-to-r from-amber-50 to-orange-50/50 p-5">
+      <main className="mx-auto max-w-6xl space-y-5 px-6 py-6">
+        <div className="flex gap-3 rounded-xl border border-amber-200/80 bg-gradient-to-r from-amber-50 to-orange-50/50 p-4">
           <Info className="mt-0.5 h-5 w-5 shrink-0 text-amber-600" />
           <div className="text-sm text-amber-950">
             <p className="font-semibold">{DATA_TRUTH_BANNER.title}</p>
-            <ul className="mt-2 space-y-1 leading-relaxed text-amber-900/85">
-              {DATA_TRUTH_BANNER.points.slice(0, 3).map((p) => (
-                <li key={p} className="flex gap-2">
-                  <span>·</span>
-                  <span>{p}</span>
-                </li>
+            <ul className="mt-1 space-y-0.5 text-xs leading-relaxed text-amber-900/85">
+              {DATA_TRUTH_BANNER.points.slice(0, 2).map((p) => (
+                <li key={p}>· {p}</li>
               ))}
             </ul>
           </div>
         </div>
 
-        {/* 三渠道对比条 */}
-        <div className="lingoace-panel p-6">
-          <p className="mb-4 text-sm font-semibold text-slate-800">渠道并排对比</p>
-          <div className="grid gap-4 sm:grid-cols-3">
+        <div className="lingoace-panel p-5">
+          <p className="mb-3 text-sm font-semibold text-slate-800">四渠道并排对比</p>
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
             {comparison.map((ch) => (
               <button
                 key={ch.id}
                 type="button"
                 onClick={() => selectChannel(ch.id)}
-                className={`rounded-2xl border-2 p-4 text-left transition-all ${
-                  activeChannel === ch.id
-                    ? "shadow-md"
-                    : "border-slate-200 hover:border-slate-300"
-                }`}
+                className={`rounded-xl border-2 p-3 text-left transition-all ${
+                  activeChannel === ch.id ? "shadow-md" : "border-slate-200 hover:border-slate-300"
+                } ${ch.planned ? "border-dashed opacity-80" : ""}`}
                 style={{
                   borderColor: activeChannel === ch.id ? ch.color : undefined,
                   boxShadow:
                     activeChannel === ch.id ? `0 0 0 2px ${ch.color}33` : undefined,
                 }}
               >
-                <p className="font-bold" style={{ color: ch.color }}>
-                  {ch.label}
-                </p>
-                <p className="mt-2 text-2xl font-bold text-slate-900">
+                <div className="flex items-center gap-1.5">
+                  <p className="text-sm font-bold" style={{ color: ch.color }}>
+                    {ch.label}
+                  </p>
+                  {ch.tag && (
+                    <LabelChip tone={ch.planned ? "muted" : "brand"}>{ch.tag}</LabelChip>
+                  )}
+                </div>
+                <p className="mt-2 text-xl font-bold text-slate-900">
                   {ch.qualified}
                   <span className="ml-1 text-xs font-normal text-slate-500">人/月</span>
                 </p>
                 <p className="mt-1 text-sm font-semibold text-indigo-700">
                   CAC {formatCny(ch.cac)}
                 </p>
-                <p className="text-xs text-slate-500">
+                <p className="text-[10px] text-slate-500">
                   月总成本 {formatCny(ch.monthlyTotalCost)}
                 </p>
               </button>
@@ -185,18 +184,21 @@ export default function ChannelCalculatorPage() {
         </div>
 
         <div className="lingoace-panel overflow-hidden">
-          <div className="border-b border-slate-100 bg-gradient-to-r from-indigo-50/80 via-white to-violet-50/50 px-6 py-5">
+          <div className="border-b border-slate-100 bg-gradient-to-r from-indigo-50/80 via-white to-violet-50/50 px-5 py-4">
             <p className="text-sm font-medium text-slate-700">
               当前编辑：<span style={{ color: preset.color }}>{preset.label}</span>
+              {preset.planned && (
+                <span className="ml-2 text-xs text-slate-400">（规划假设）</span>
+              )}
             </p>
             <p className="mt-1 text-xs text-slate-500">{preset.useCase}</p>
-            <div className="mt-3 flex flex-wrap gap-2">
+            <div className="mt-2 flex flex-wrap gap-1.5">
               {CHANNEL_IDS.map((id) => (
                 <button
                   key={id}
                   type="button"
                   onClick={() => selectChannel(id)}
-                  className={`rounded-full border px-4 py-1.5 text-xs font-semibold transition ${
+                  className={`rounded-full border px-3 py-1 text-xs font-semibold transition ${
                     activeChannel === id
                       ? "border-indigo-600 bg-indigo-600 text-white"
                       : "border-slate-200 bg-white text-slate-600 hover:bg-slate-50"
@@ -206,30 +208,25 @@ export default function ChannelCalculatorPage() {
                 </button>
               ))}
             </div>
-            <p className="mt-3 rounded-lg bg-white/80 px-3 py-2 text-xs text-indigo-800 ring-1 ring-indigo-100">
-              <b>师训路径：</b>
-              {preset.trainingPath}
-            </p>
-            <p className="mt-1 text-xs text-slate-500">
-              <b>设定依据：</b>
-              {preset.basis}
+            <p className="mt-2 rounded-lg bg-white/80 px-3 py-1.5 text-xs text-indigo-800 ring-1 ring-indigo-100">
+              <b>师训：</b>{preset.trainingPath}
             </p>
           </div>
 
           <div className="grid lg:grid-cols-2">
-            <div className="space-y-8 border-b border-slate-100 p-6 lg:border-b-0 lg:border-r">
+            <div className="space-y-6 border-b border-slate-100 p-5 lg:border-b-0 lg:border-r">
               {INPUT_GROUPS.map((group) => (
                 <div key={group.title}>
-                  <div className="mb-4 flex items-center gap-2">
-                    <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-indigo-100 text-xs font-bold text-indigo-700">
+                  <div className="mb-3 flex items-center gap-2">
+                    <span className="flex h-6 w-6 items-center justify-center rounded-lg bg-indigo-100 text-xs font-bold text-indigo-700">
                       {group.icon}
                     </span>
                     <div>
                       <h3 className="text-sm font-bold text-slate-900">{group.title}</h3>
-                      <p className="text-xs text-slate-500">{group.desc}</p>
+                      <p className="text-[10px] text-slate-500">{group.desc}</p>
                     </div>
                   </div>
-                  <div className="space-y-2">
+                  <div className="space-y-1.5">
                     {group.fields.map((f) => {
                       const key = f.key as keyof Assumptions;
                       const meta = FIELD_META[key];
@@ -242,29 +239,21 @@ export default function ChannelCalculatorPage() {
                       return (
                         <div
                           key={f.key}
-                          className={`overflow-hidden rounded-xl border transition-colors ${
+                          className={`overflow-hidden rounded-lg border ${
                             isHighlight
                               ? "border-amber-200 bg-amber-50/30"
                               : "border-slate-100 bg-slate-50/50"
                           }`}
                         >
-                          <div className="flex items-center justify-between gap-3 px-4 py-3">
+                          <div className="flex items-center justify-between gap-2 px-3 py-2">
                             <button
                               type="button"
                               onClick={() => setExpandedField(isOpen ? null : key)}
                               className="min-w-0 flex-1 text-left"
                             >
-                              <span className="flex flex-wrap items-center gap-2 text-sm font-medium text-slate-800">
+                              <span className="flex items-center gap-1.5 text-sm font-medium text-slate-800">
                                 {f.label}
                                 {isHighlight && <LabelChip tone="warn">核心</LabelChip>}
-                              </span>
-                              <span className="mt-0.5 flex items-center gap-1 text-[10px] text-slate-400">
-                                点击查看口径
-                                {isOpen ? (
-                                  <ChevronUp className="h-3 w-3" />
-                                ) : (
-                                  <ChevronDown className="h-3 w-3" />
-                                )}
                               </span>
                             </button>
                             <div className="flex shrink-0 items-center gap-1">
@@ -273,7 +262,7 @@ export default function ChannelCalculatorPage() {
                               )}
                               <input
                                 type="number"
-                                className="lingoace-calc-input w-20 rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-right text-sm font-bold text-slate-900"
+                                className="lingoace-calc-input w-16 rounded-lg border border-slate-200 bg-white px-2 py-1 text-right text-sm font-bold text-slate-900"
                                 value={display}
                                 onChange={(e) =>
                                   setField(key, Number(e.target.value), isPct ? "pct" : "number")
@@ -282,6 +271,13 @@ export default function ChannelCalculatorPage() {
                               {isPct && (
                                 <span className="text-xs font-medium text-slate-500">%</span>
                               )}
+                              <button
+                                type="button"
+                                onClick={() => setExpandedField(isOpen ? null : key)}
+                                className="text-slate-400"
+                              >
+                                {isOpen ? <ChevronUp className="h-3 w-3" /> : <ChevronDown className="h-3 w-3" />}
+                              </button>
                             </div>
                           </div>
                           {isOpen && <FieldMetaPanel meta={meta} />}
@@ -292,83 +288,73 @@ export default function ChannelCalculatorPage() {
                 </div>
               ))}
 
-              <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+              <div className="rounded-lg border border-slate-200 bg-slate-50 p-3">
                 <p className="text-xs font-bold text-slate-700">招聘渠道</p>
-                <ul className="mt-2 space-y-1">
+                <ul className="mt-1 space-y-0.5">
                   {preset.recruitmentChannels.map((c) => (
-                    <li key={c} className="text-xs text-slate-600">
-                      · {c}
-                    </li>
+                    <li key={c} className="text-xs text-slate-600">· {c}</li>
                   ))}
                 </ul>
               </div>
             </div>
 
-            <div className="bg-gradient-to-br from-slate-50 to-indigo-50/30 p-6">
-              <div className="mb-5 flex items-center gap-2">
-                <TrendingUp className="h-5 w-5 text-indigo-600" />
+            <div className="bg-gradient-to-br from-slate-50 to-indigo-50/30 p-5">
+              <div className="mb-4 flex items-center gap-2">
+                <TrendingUp className="h-4 w-4 text-indigo-600" />
                 <h3 className="text-sm font-bold text-slate-900">自动计算结果</h3>
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-2 gap-2">
                 {summary.kpis.map((k, i) => (
                   <div
                     key={k.label}
-                    className={`rounded-xl border bg-white p-4 shadow-sm ${
+                    className={`rounded-lg border bg-white p-3 shadow-sm ${
                       i === 0 ? "col-span-2 border-indigo-100" : "border-slate-100"
                     }`}
                   >
-                    <p className="text-[11px] font-medium uppercase tracking-wide text-slate-500">
+                    <p className="text-[10px] font-medium uppercase tracking-wide text-slate-500">
                       {k.label}
                     </p>
-                    <p
-                      className={`mt-1 font-bold text-indigo-700 ${
-                        i === 0 ? "text-3xl" : "text-xl"
-                      }`}
-                    >
+                    <p className={`mt-0.5 font-bold text-indigo-700 ${i === 0 ? "text-2xl" : "text-lg"}`}>
                       {k.value}
                     </p>
                   </div>
                 ))}
-                <div className="col-span-2 rounded-xl border border-emerald-100 bg-emerald-50/50 p-4">
-                  <p className="text-[11px] font-medium uppercase tracking-wide text-emerald-700">
-                    月总成本（渠道+培训+运营）
+                <div className="col-span-2 rounded-lg border border-emerald-100 bg-emerald-50/50 p-3">
+                  <p className="text-[10px] font-medium uppercase tracking-wide text-emerald-700">
+                    月总成本
                   </p>
-                  <p className="mt-1 text-2xl font-bold text-emerald-800">
+                  <p className="mt-0.5 text-xl font-bold text-emerald-800">
                     {formatCny(summary.monthlyTotalCost)}
                   </p>
                 </div>
               </div>
 
-              <div className="mt-8">
-                <p className="mb-4 text-xs font-bold uppercase tracking-wider text-slate-500">
+              <div className="mt-6">
+                <p className="mb-3 text-[10px] font-bold uppercase tracking-wider text-slate-500">
                   招聘漏斗
                 </p>
-                <div className="space-y-3">
+                <div className="space-y-2">
                   {summary.funnel.steps.map((step) => {
                     const w = Math.max(18, Math.round((step.count / maxCount) * 100));
                     return (
-                      <div key={step.id} className="flex items-center gap-3">
-                        <span className="w-[4.5rem] shrink-0 text-right text-[11px] font-medium text-slate-600">
+                      <div key={step.id} className="flex items-center gap-2">
+                        <span className="w-16 shrink-0 text-right text-[10px] font-medium text-slate-600">
                           {step.label}
                         </span>
                         <div className="relative min-w-0 flex-1">
                           <div
-                            className={`lingoace-funnel-bar flex h-8 items-center rounded-lg px-3 text-xs font-semibold text-white shadow-sm ${
+                            className={`lingoace-funnel-bar flex h-7 items-center rounded-lg px-2 text-[10px] font-semibold text-white ${
                               step.highlight
                                 ? "bg-gradient-to-r from-amber-500 to-orange-500"
                                 : "bg-gradient-to-r from-indigo-500 to-violet-500"
                             }`}
-                            style={{ width: `${w}%`, minWidth: "72px" }}
+                            style={{ width: `${w}%`, minWidth: "64px" }}
                           >
-                            <span className="truncate">
-                              {step.count}
-                              {step.rate != null && (
-                                <span className="ml-1 opacity-80">
-                                  ×{formatPct(step.rate)}
-                                </span>
-                              )}
-                            </span>
+                            {step.count}
+                            {step.rate != null && (
+                              <span className="ml-1 opacity-80">×{formatPct(step.rate)}</span>
+                            )}
                           </div>
                         </div>
                       </div>
@@ -389,23 +375,14 @@ export default function ChannelCalculatorPage() {
 function FieldMetaPanel({ meta }: { meta: (typeof FIELD_META)[keyof Assumptions] }) {
   const refs = meta.sourceIds ? getSources(meta.sourceIds) : [];
   return (
-    <div className="space-y-2 border-t border-slate-100 bg-white px-4 py-3 text-xs leading-relaxed text-slate-600">
-      <p>
-        <b className="text-slate-800">定义：</b>
-        {meta.definition}
-      </p>
-      <p>
-        <b className="text-slate-800">公式：</b>
-        {meta.formula}
-      </p>
+    <div className="space-y-1.5 border-t border-slate-100 bg-white px-3 py-2 text-[11px] leading-relaxed text-slate-600">
+      <p><b className="text-slate-800">定义：</b>{meta.definition}</p>
+      <p><b className="text-slate-800">公式：</b>{meta.formula}</p>
       {meta.benchmark && (
-        <p>
-          <b className="text-slate-800">行业参照：</b>
-          {meta.benchmark}
-        </p>
+        <p><b className="text-slate-800">参照：</b>{meta.benchmark}</p>
       )}
       {refs.length > 0 && (
-        <div className="flex flex-wrap gap-2 pt-1">
+        <div className="flex flex-wrap gap-1.5 pt-1">
           {refs.map((s) => (
             <a
               key={s.id}
@@ -427,15 +404,12 @@ function CalcWalkthrough({ assumptions }: { assumptions: Assumptions }) {
   const f = computeFunnel(assumptions);
   const lines = [
     `投递 ${f.applicants} → 初筛 ${f.screened}（×${formatPct(assumptions.resumeToScreenRate)}）`,
-    `→ 试讲 ${f.demo}（×${formatPct(assumptions.screenToDemoRate)}）`,
-    `→ 录用 ${f.offer} → 结业 ${f.graduated} → 达标 ${f.qualified}`,
+    `→ 试讲 ${f.demo} → 录用 ${f.offer} → 结业 ${f.graduated} → 达标 ${f.qualified}`,
   ];
   return (
-    <div className="mt-6 rounded-xl border border-slate-200 bg-white/80 p-4">
-      <p className="mb-2 text-[10px] font-bold uppercase tracking-wider text-slate-400">
-        演算过程
-      </p>
-      <div className="space-y-1 font-mono text-[11px] leading-relaxed text-slate-600">
+    <div className="mt-4 rounded-lg border border-slate-200 bg-white/80 p-3">
+      <p className="mb-1 text-[10px] font-bold uppercase tracking-wider text-slate-400">演算</p>
+      <div className="space-y-0.5 font-mono text-[10px] leading-relaxed text-slate-600">
         {lines.map((l) => (
           <p key={l}>{l}</p>
         ))}
