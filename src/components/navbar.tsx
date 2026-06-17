@@ -41,7 +41,8 @@ export function Navbar() {
   }
 
   const isAuthPage = pathname === "/login" || pathname === "/register";
-  const isStandalone = pathname.startsWith("/teacher-ops");
+  const isStandalone =
+    pathname.startsWith("/teacher-ops") || pathname.startsWith("/teacher-supply");
 
   if (isStandalone) return null;
 
