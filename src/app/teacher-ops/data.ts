@@ -1,16 +1,142 @@
 /* ── 全链路：Selena 的师资运营逻辑框架 ── */
 
 export const META = {
-  title: "LingoAce 师资运营 · 诊断与优化方案",
+  title: "LingoAce 师资运营 · 战略诊断与组织能力方案",
   author: "Selena",
-  subtitle: "招 → 培 → 用 → 证：解决招聘-交付错位，60 天可落地",
+  subtitle: "从「招到人」到「组织能力可复制」——支撑语数英三大项目协同与全球化师资网络",
   disclaimer:
     "个人面试准备材料，非 LingoAce 官方数据。默认值对齐伴鱼/VIPKID 等公开报道与行业区间；计算器含完整口径手册与引用链接。",
 };
 
+/** CEO 视角：两轮思考开场框架 */
+export const CEO_FRAMING = {
+  round1:
+    "第一轮我回答了「师资运营怎么管」——招培用证闭环、错配拆解、60 天验收。",
+  round2:
+    "第二轮我想回答「师资如何支撑 LingoAce 未来三年」——语数英协同、AI 时代能力重定义、全球化管理半径下的组织能力规模化。",
+  thesis:
+    "师资不是成本中心，而是三大项目交付质量与续费 LTV 的组织能力底座；我的价值是把这条链路做成可度量、可复制、可跨项目协同的系统。",
+};
+
+/** 业务全局视图：CEO 关心的顶层叙事 */
+export const BUSINESS_OVERVIEW = {
+  headline: "LingoAce 的增长，最终由「师资组织能力」决定天花板",
+  pillars: [
+    {
+      label: "语文",
+      focus: "华裔传承 · 读写表达 · 文化认同",
+      teacherNeed: "双语母语级表达 + 结构化写作引导 + 文化情境教学",
+      risk: "师资画像与英语线混用，家长对「中文正宗感」敏感",
+    },
+    {
+      label: "数学",
+      focus: "逻辑建构 · 双语解题 · 北美/新加坡体系",
+      teacherNeed: "学科功底 + 英文讲题能力 + 可视化互动",
+      risk: "数学老师招聘池窄，师训周期长，与英语师共用漏斗易失真",
+    },
+    {
+      label: "英语",
+      focus: "口语对话 · 分级阅读 · 考试路径",
+      teacherNeed: "发音标准 + 课堂能量 + 分级阅读/PBL 经验",
+      risk: "外教供给全球化竞争白热化，CAC 与留存是主战场",
+    },
+  ],
+  northStar: [
+    { label: "组织目标", value: "三大项目「同一套师资主数据 + 差异化画像」" },
+    { label: "经营杠杆", value: "首月达标率 × 错配率 × 90 天留存 → 续费 LTV" },
+    { label: "战略变量", value: "AI 提效师资产能 · 菲教/多国外教组合优化全球半径" },
+  ],
+};
+
+/** 三大项目协同矩阵 */
+export const THREE_PROJECT_MATRIX = {
+  headline: "不是三套师资团队，而是一套组织能力、三种交付画像",
+  dimensions: ["语文", "数学", "英语"] as const,
+  rows: [
+    {
+      axis: "核心师资画像",
+      values: [
+        "中文母语/近母语 · 写作引导型 · 文化情境",
+        "数理功底 · 双语讲题 · 逻辑可视化",
+        "口语流利 · 分级阅读 · 课堂互动能量",
+      ],
+    },
+    {
+      axis: "招聘主渠道",
+      values: [
+        "华人教师社群 · 师范/中文系 · 内推",
+        "STEM 背景华人 · 师范数学 · 跨学科人才",
+        "北美/欧/菲外教 · LinkedIn · 教师转介绍",
+      ],
+    },
+    {
+      axis: "师训差异化",
+      values: ["汉字书写/阅读策略师训", "双语解题话术 + 教具", "发音/互动/阅读分级师训"],
+    },
+    {
+      axis: "可共享能力",
+      values: [
+        "师生标签匹配 · 首课陪跑 · 质检 rubric · AI 备课助手",
+        "同一套",
+        "同一套",
+      ],
+    },
+    {
+      axis: "协同 KPI",
+      values: [
+        "跨项目转介绍师资率",
+        "同一 teacher_id 多项目授课占比",
+        "共享师训模块完课率",
+      ],
+    },
+  ],
+};
+
+/** AI 时代师资能力新模型 */
+export const AI_TEACHER_MODEL = {
+  headline: "AI 不替代教师，但重新定义「合格教师」的产能边界",
+  layers: [
+    {
+      id: "human",
+      label: "人类不可替代",
+      items: [
+        "情感连接与文化情境（尤其语文传承）",
+        "课堂即兴互动与动机激发",
+        "复杂错因诊断与个性化纠偏",
+        "家校沟通与信任建立",
+      ],
+      color: "#4f46e5",
+    },
+    {
+      id: "ai",
+      label: "AI 放大产能",
+      items: [
+        "备课与教案生成（按学员标签定制）",
+        "课后反馈草稿 + 作业批改初筛",
+        "试讲/模拟课 AI 陪练与 rubric 预评分",
+        "多语言质检抽样与异常课堂预警",
+      ],
+      color: "#7c3aed",
+    },
+    {
+      id: "org",
+      label: "组织需建设",
+      items: [
+        "「人机协同」师训模块纳入结业标准",
+        "AI 使用合规与儿童隐私红线",
+        "师资产能指标：单位师训成本下达标教师产出",
+      ],
+      color: "#059669",
+    },
+  ],
+  capabilityFormula:
+    "新师资能力 = 学科交付力 × 互动能量 × AI 协同熟练度 × 数据回流意识",
+};
+
 /** 结论先行：整体运营逻辑 */
 export const OPERATIONS_LOGIC = {
-  headline: "师资运营不是「招到人」就结束了，而是「招得来、培得会、用得好、证得住」",
+  headline:
+    "CEO 视角下，师资运营的本质是：用组织系统把「个体名师经验」变成「三大项目可规模复制的交付能力」",
   loop: [
     {
       id: "recruit",
@@ -56,6 +182,24 @@ export const SOLUTIONS = [
       "师训多维标签（语言/语法/互动/性格/教师类型）+ 学员标签双向匹配 + 标准交接包；招聘 KPI 绑定首月达标率",
     verify:
       "错配率（非单纯低分率）、首课换师率、匹配后排课满意度、交接完整率",
+  },
+  {
+    pain: "语文/数学/英语师资画像割裂",
+    solution:
+      "建立「统一 teacher_id + 项目画像标签」主数据；共享招培用证基础设施，师训模块分轨、质检 rubric 分轨",
+    verify: "跨项目错配率、共享师训完课率、同一师资多项目授课满意度",
+  },
+  {
+    pain: "AI 时代师资能力模型滞后",
+    solution:
+      "师训新增「人机协同」模块；AI 备课/反馈工具纳入结业考核；试讲引入 AI 陪练预评分",
+    verify: "新师 AI 工具采用率、单位师训成本下达标产出、AI 辅助课后反馈时效",
+  },
+  {
+    pain: "全球化管理半径与规模化瓶颈",
+    solution:
+      "外教组合策略（北美品牌 + 菲教成本优化）+ 时区排班中枢 + 远程质检抽样；招聘渠道矩阵按 ROI 动态调配",
+    verify: "分区域 CAC、跨时区完课率、远程师训结业率、全球师资池活跃率",
   },
 ];
 
@@ -267,6 +411,156 @@ export const PAIN_POINTS = [
         key: "misalignmentRate",
         formula: "首月因「师生不匹配」导致换师/投诉/未达标数 ÷ 新入职教师数（需与「纯能力不达标」分开统计）",
         verify: "运营台账标注换师原因 + 课堂指标口径一致化",
+        trend: "flat" as const,
+      },
+    ],
+  },
+  {
+    id: "synergy",
+    title: "痛点三：语文/数学/英语师资画像割裂",
+    subtitle: "CEO 全局视角：三大项目协同不足，重复建设、标准不一",
+    severity: "高",
+    selenaView:
+      "简一总关注的不是单线英语师资，而是语数英能否共用一套组织能力。画像割裂会导致招聘重复投入、师训标准打架、质检口径不一致，最终伤害家长对「一站式学习」的信任。",
+    symptoms: [
+      "三条业务线各自招师、各自师训，teacher_id 不统一",
+      "语文老师被英语 rubric 误筛，数学老师英语讲题能力未结构化评估",
+      "跨项目转介绍师资潜力未挖掘（如双语教师可跨英语+数学）",
+      "共享职能（质检、排课、数据）重复建设",
+    ],
+    rootCauses: [
+      { label: "主数据缺失", desc: "无统一师资主档，项目标签未分层" },
+      { label: "师训分轨不足", desc: "共享模块与差异化模块未拆分" },
+      { label: "KPI 孤岛", desc: "各项目只看本线达标率，不看协同效率" },
+      { label: "组织壁垒", desc: "招聘/师训/运营按项目割裂汇报" },
+    ],
+    metrics: [
+      {
+        label: "跨项目师资复用率",
+        key: "crossProjectReuse",
+        formula: "多项目授课教师数 ÷ 总在岗教师数",
+        verify: "teacher_id 主数据 + 排课系统",
+        trend: "flat" as const,
+      },
+      {
+        label: "共享师训模块完课率",
+        key: "sharedTrainingRate",
+        formula: "完成共享模块人数 ÷ 新师入营人数",
+        verify: "LMS 模块完成记录",
+        trend: "flat" as const,
+      },
+      {
+        label: "项目间错配投诉占比",
+        key: "crossProjectMisalign",
+        formula: "因「项目画像不符」导致换师数 ÷ 总换师数",
+        verify: "运营换师原因标注",
+        trend: "flat" as const,
+      },
+      {
+        label: "重复招聘成本率",
+        key: "duplicateRecruitCost",
+        formula: "可复用但未复用的招聘支出 ÷ 总招聘预算",
+        verify: "招聘渠道归因 + 人才库检索日志",
+        trend: "flat" as const,
+      },
+    ],
+  },
+  {
+    id: "ai-gap",
+    title: "痛点四：AI 时代师资能力模型未升级",
+    subtitle: "行业在变：合格教师定义需加入「人机协同」维度",
+    severity: "较高",
+    selenaView:
+      "竞争对手已在用 AI 降本增效；若 LingoAce 师训仍只教「怎么上课」而不教「怎么用 AI 放大产能」，单位师训成本下的达标产出会持续落后。AI 是杠杆，不是威胁——但组织必须主动定义标准。",
+    symptoms: [
+      "新师备课耗时长，师训师 1:1 陪练不可扩展",
+      "课后反馈质量参差，家长感知服务不一致",
+      "试讲评估全靠人工，招聘产能瓶颈明显",
+      "质检抽样覆盖率不足，问题发现滞后",
+    ],
+    rootCauses: [
+      { label: "师训未迭代", desc: "结业标准未包含 AI 工具熟练度" },
+      { label: "工具未嵌入流程", desc: "AI 备课/反馈与 LMS 脱节" },
+      { label: "合规顾虑", desc: "儿童隐私与 AI 使用边界未明确" },
+      { label: "产能指标旧", desc: "仍用「师训师人数」而非「单位成本达标产出」" },
+    ],
+    metrics: [
+      {
+        label: "新师 AI 工具周活跃率",
+        key: "aiToolAdoption",
+        formula: "使用 AI 备课/反馈工具的新师 ÷ 新师总数",
+        verify: "LMS/工具后台日志",
+        trend: "flat" as const,
+      },
+      {
+        label: "单位师训成本达标产出",
+        key: "trainingRoi",
+        formula: "首月达标人数 ÷ 师训总成本",
+        verify: "师训财务 + 课堂达标名单",
+        trend: "flat" as const,
+      },
+      {
+        label: "课后反馈 24h 达成率",
+        key: "feedbackSla",
+        formula: "24h 内完成反馈 ÷ 应反馈课次",
+        verify: "课堂系统时间戳",
+        trend: "flat" as const,
+      },
+      {
+        label: "AI 试讲预评与人工分一致性",
+        key: "aiDemoCorrelation",
+        formula: "AI 预评分与师训师终评相关系数",
+        verify: "试讲评分表对比",
+        trend: "flat" as const,
+      },
+    ],
+  },
+  {
+    id: "global-scale",
+    title: "痛点五：全球化管理半径与组织能力规模化",
+    subtitle: "外教供给全球化、时区分散、远程管理——半径扩大后系统是否跟得上",
+    severity: "高",
+    selenaView:
+      "从江红树等竞品实践可见：欧美外教建立品牌信任，菲教扩产能降本——关键是组合策略而非单一路线。LingoAce 的全球化师资网络需要「远程可管、数据可见、标准可复制」，否则管理半径越大、质量方差越大。",
+    symptoms: [
+      "北美外教 CAC 高但家长信任强；菲教成本低但师训与质检投入需加码",
+      "跨时区招聘面试、师训陪跑协调成本高",
+      "远程教师设备/网络/合规问题难以及时发现",
+      "区域负责人各自为政，全球师资池未打通",
+    ],
+    rootCauses: [
+      { label: "外教组合未定", desc: "品牌线 vs 成本线师资比例缺乏动态模型" },
+      { label: "远程质检弱", desc: "课堂抽样覆盖率不足，依赖事后投诉" },
+      { label: "时区运营碎片", desc: "排班与陪跑未中枢化" },
+      { label: "全球人才库孤岛", desc: "各区域简历未汇入可检索主库" },
+    ],
+    metrics: [
+      {
+        label: "分区域单师 CAC",
+        key: "regionalCac",
+        formula: "各区域招聘总成本 ÷ 各区域首月达标人数",
+        verify: "财务按区域归因",
+        trend: "flat" as const,
+      },
+      {
+        label: "远程师训结业率",
+        key: "remoteTrainingGrad",
+        formula: "远程完成师训人数 ÷ 远程入营人数",
+        verify: "LMS + 直播出勤",
+        trend: "flat" as const,
+      },
+      {
+        label: "跨时区完课率",
+        key: "timezoneCompletion",
+        formula: "按时开课并完成课时 ÷ 计划课时",
+        verify: "课堂系统",
+        trend: "flat" as const,
+      },
+      {
+        label: "全球师资池月活跃率",
+        key: "globalPoolActive",
+        formula: "当月有授课记录教师 ÷ 师资库在册教师",
+        verify: "HR + 排课系统",
         trend: "flat" as const,
       },
     ],
@@ -581,6 +875,51 @@ export const DATA_LOOP = [
   },
 ];
 
+export const ROADMAP_VISION = {
+  headline: "三层时间地图：90 天见效 · 1 年机制 · 3 年组织能力",
+  layers: [
+    {
+      horizon: "0–90 天",
+      subtitle: "止血与对齐 — 兼职可落地",
+      theme: "快速见效",
+      color: "#6366F1",
+      goals: [
+        "统一 teacher_id 与「首月达标」定义",
+        "交接包 v1 + 错配率量化",
+        "英语线漏斗基线与渠道 ROI 试点",
+      ],
+      deliverables: ["达标定义文档", "交接 SOP v1", "漏斗基线报告"],
+    },
+    {
+      horizon: "6–12 个月",
+      subtitle: "机制固化 — 三大项目协同",
+      theme: "系统建设",
+      color: "#2563EB",
+      goals: [
+        "语数英师资主数据 + 项目画像标签上线",
+        "共享师训模块与分轨模块拆分",
+        "AI 备课/反馈工具师训试点",
+        "全球师资池 + 分区域 CAC 看板",
+      ],
+      deliverables: ["协同矩阵运营手册", "AI 师训模块 v1", "全球师资看板"],
+    },
+    {
+      horizon: "1–3 年",
+      subtitle: "组织能力 — 规模化与护城河",
+      theme: "战略资产",
+      color: "#059669",
+      goals: [
+        "师资组织能力成为 LingoAce 续费 LTV 核心杠杆",
+        "北美品牌线 + 菲教产能线动态组合模型成熟",
+        "人机协同师训成为对内标准、对外品牌",
+        "跨项目师资复用率显著提升，单位招聘成本下降",
+      ],
+      deliverables: ["师资 OS 2.0", "全球管理半径 playbook", "行业最佳实践白皮书"],
+    },
+  ],
+};
+
+/** 90 天内执行节奏（承接 ROADMAP_VISION 第一层） */
 export const ROADMAP_60 = [
   {
     phase: "15天",
@@ -635,8 +974,11 @@ export const ROADMAP_60 = [
 export const ROADMAP = ROADMAP_60;
 
 export const MAIN_NAV = [
+  { id: "overview", label: "业务全局" },
   { id: "logic", label: "运营逻辑" },
+  { id: "synergy", label: "项目协同" },
   { id: "pain", label: "痛点解法" },
+  { id: "ai-model", label: "AI 能力" },
   { id: "verify", label: "效果验证" },
-  { id: "roadmap", label: "60天路径" },
+  { id: "roadmap", label: "时间地图" },
 ];

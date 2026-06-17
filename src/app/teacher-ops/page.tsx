@@ -8,20 +8,29 @@ import {
   CheckCircle2,
   ChevronRight,
   GitBranch,
+  Globe2,
+  Grid3X3,
   Route,
   ShieldCheck,
   Sparkles,
   Target,
   Users,
+  Brain,
+  LayoutDashboard,
 } from "lucide-react";
 import {
   META,
+  CEO_FRAMING,
+  BUSINESS_OVERVIEW,
+  THREE_PROJECT_MATRIX,
+  AI_TEACHER_MODEL,
   OPERATIONS_LOGIC,
   SOLUTIONS,
   VERIFICATION,
   PAIN_POINTS,
   HANDOVER_PROCESS,
   ROADMAP_60,
+  ROADMAP_VISION,
   SCENARIOS,
   MAIN_NAV,
 } from "./data";
@@ -37,10 +46,13 @@ import { MatchingFramework } from "./components/matching-panel";
 const LOOP_COLORS = ["#4f46e5", "#6366f1", "#7c3aed", "#8b5cf6"];
 
 const NAV_WITH_ICONS = [
+  { id: "overview", label: "业务全局", icon: LayoutDashboard },
   { id: "logic", label: "运营逻辑", icon: GitBranch },
+  { id: "synergy", label: "项目协同", icon: Grid3X3 },
   { id: "pain", label: "痛点解法", icon: Target },
+  { id: "ai-model", label: "AI 能力", icon: Brain },
   { id: "verify", label: "效果验证", icon: ShieldCheck },
-  { id: "roadmap", label: "60天路径", icon: Route },
+  { id: "roadmap", label: "时间地图", icon: Route },
 ];
 
 const TIER_STYLES = {
@@ -52,7 +64,8 @@ const TIER_STYLES = {
 export default function LingoAceMainPage() {
   const [activePain, setActivePain] = useState(PAIN_POINTS[0].id);
   const [roadmapIdx, setRoadmapIdx] = useState(0);
-  const [activeNav, setActiveNav] = useState("logic");
+  const [visionIdx, setVisionIdx] = useState(0);
+  const [activeNav, setActiveNav] = useState("overview");
   const pain = PAIN_POINTS.find((p) => p.id === activePain)!;
 
   const scenarioPreview = {
@@ -80,6 +93,7 @@ export default function LingoAceMainPage() {
   }, []);
 
   const roadmap = ROADMAP_60[roadmapIdx];
+  const vision = ROADMAP_VISION.layers[visionIdx];
 
   return (
     <>
@@ -91,15 +105,18 @@ export default function LingoAceMainPage() {
             <div className="max-w-2xl">
               <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-sm font-medium backdrop-blur-sm">
                 <Sparkles className="h-4 w-4 text-indigo-200" />
-                二面材料 · {META.author}
+                CEO 二面 · {META.author}
               </div>
               <h1 className="text-3xl font-bold tracking-tight sm:text-4xl lg:text-[2.75rem] lg:leading-tight">
                 {META.title}
               </h1>
               <p className="mt-5 text-base leading-relaxed text-indigo-100/90 sm:text-lg">
-                {OPERATIONS_LOGIC.headline}
+                {CEO_FRAMING.round2}
               </p>
-              <p className="mt-3 text-sm text-indigo-200/70">{META.subtitle}</p>
+              <p className="mt-3 text-sm leading-relaxed text-indigo-200/80">
+                {CEO_FRAMING.thesis}
+              </p>
+              <p className="mt-2 text-xs text-indigo-200/60">{META.subtitle}</p>
             </div>
             <div className="flex shrink-0 flex-col gap-3 sm:flex-row lg:flex-col">
               <Link
@@ -122,9 +139,9 @@ export default function LingoAceMainPage() {
           {/* Quick stats strip */}
           <div className="mt-14 grid gap-3 sm:grid-cols-3">
             {[
+              { label: "战略视角", value: "语 · 数 · 英 协同" },
               { label: "运营闭环", value: "招 → 培 → 用 → 证" },
-              { label: "教师侧验收", value: "15 / 30 / 45 / 60 天" },
-              { label: "数据推演", value: "基础 · 中档 · 最优" },
+              { label: "时间地图", value: "90天 · 1年 · 3年" },
             ].map((s) => (
               <div
                 key={s.label}
@@ -149,12 +166,56 @@ export default function LingoAceMainPage() {
           </aside>
 
           <main className="min-w-0 space-y-10">
+            {/* 0. Business Overview */}
+            <section id="overview" className="lingoace-panel scroll-mt-24 p-6 sm:p-8">
+              <SectionHeader
+                num={0}
+                title="业务全局视图"
+                subtitle="CEO 视角：师资组织能力如何支撑语数英三大项目"
+              />
+              <p className="mb-6 text-base font-medium text-slate-800">
+                {BUSINESS_OVERVIEW.headline}
+              </p>
+              <div className="mb-8 grid gap-4 md:grid-cols-3">
+                {BUSINESS_OVERVIEW.pillars.map((p) => (
+                  <div
+                    key={p.label}
+                    className="rounded-2xl border border-slate-100 bg-gradient-to-b from-white to-slate-50/80 p-5"
+                  >
+                    <p className="text-lg font-bold text-indigo-700">{p.label}</p>
+                    <p className="mt-1 text-xs font-medium text-slate-500">{p.focus}</p>
+                    <p className="mt-3 text-sm text-slate-700">
+                      <span className="font-semibold">师资需求：</span>
+                      {p.teacherNeed}
+                    </p>
+                    <p className="mt-2 text-xs text-amber-700">
+                      <span className="font-semibold">风险：</span>
+                      {p.risk}
+                    </p>
+                  </div>
+                ))}
+              </div>
+              <div className="grid gap-3 sm:grid-cols-3">
+                {BUSINESS_OVERVIEW.northStar.map((n) => (
+                  <div
+                    key={n.label}
+                    className="rounded-xl border border-indigo-100 bg-indigo-50/40 px-4 py-3 text-center"
+                  >
+                    <p className="text-[10px] font-bold uppercase tracking-wider text-indigo-600">
+                      {n.label}
+                    </p>
+                    <p className="mt-1 text-sm font-semibold text-slate-800">{n.value}</p>
+                  </div>
+                ))}
+              </div>
+            </section>
+
             {/* 1. Logic */}
             <section id="logic" className="lingoace-panel scroll-mt-24 p-6 sm:p-8">
               <SectionHeader
                 num={1}
                 title="整体运营逻辑"
-                subtitle="招 → 培 → 用 → 证，形成可验证闭环"
+                subtitle={OPERATIONS_LOGIC.headline}
               />
               <div className="relative">
                 <div className="lingoace-loop-track" />
@@ -187,14 +248,52 @@ export default function LingoAceMainPage() {
               </div>
             </section>
 
-            {/* 2. Pain */}
-            <section id="pain" className="lingoace-panel scroll-mt-24 p-6 sm:p-8">
+            {/* 2. Synergy Matrix */}
+            <section id="synergy" className="lingoace-panel scroll-mt-24 p-6 sm:p-8">
               <SectionHeader
                 num={2}
-                title="业务痛点 → 解法"
-                subtitle="对应初面两大核心问题，每条解法都可验收"
+                title="三大项目协同矩阵"
+                subtitle={THREE_PROJECT_MATRIX.headline}
               />
-              <div className="mb-6 grid gap-3 sm:grid-cols-2">
+              <div className="overflow-x-auto rounded-2xl border border-slate-200">
+                <table className="w-full min-w-[640px] text-sm">
+                  <thead>
+                    <tr className="bg-slate-50">
+                      <th className="px-4 py-3 text-left font-semibold text-slate-600">维度</th>
+                      {THREE_PROJECT_MATRIX.dimensions.map((d) => (
+                        <th key={d} className="px-4 py-3 text-left font-bold text-indigo-700">
+                          {d}
+                        </th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {THREE_PROJECT_MATRIX.rows.map((row, i) => (
+                      <tr
+                        key={row.axis}
+                        className={i % 2 === 0 ? "bg-white" : "bg-slate-50/50"}
+                      >
+                        <td className="px-4 py-3 font-semibold text-slate-800">{row.axis}</td>
+                        {row.values.map((v, j) => (
+                          <td key={j} className="px-4 py-3 text-slate-600">
+                            {v}
+                          </td>
+                        ))}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </section>
+
+            {/* 3. Pain */}
+            <section id="pain" className="lingoace-panel scroll-mt-24 p-6 sm:p-8">
+              <SectionHeader
+                num={3}
+                title="业务痛点 → 解法"
+                subtitle="五大结构性痛点，每条解法可验收、可量化"
+              />
+              <div className="mb-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
                 {PAIN_POINTS.map((p) => (
                   <button
                     key={p.id}
@@ -276,10 +375,51 @@ export default function LingoAceMainPage() {
               </div>
             </section>
 
-            {/* 3. Verify */}
+            {/* 4. AI Model */}
+            <section id="ai-model" className="lingoace-panel scroll-mt-24 p-6 sm:p-8">
+              <SectionHeader
+                num={4}
+                title="AI 时代师资能力新模型"
+                subtitle={AI_TEACHER_MODEL.headline}
+              />
+              <div className="mb-6 grid gap-4 md:grid-cols-3">
+                {AI_TEACHER_MODEL.layers.map((layer) => (
+                  <div
+                    key={layer.id}
+                    className="rounded-2xl border border-slate-100 p-5"
+                    style={{ borderTopColor: layer.color, borderTopWidth: 3 }}
+                  >
+                    <p className="font-bold" style={{ color: layer.color }}>
+                      {layer.label}
+                    </p>
+                    <ul className="mt-3 space-y-2">
+                      {layer.items.map((item) => (
+                        <li key={item} className="flex gap-2 text-sm text-slate-600">
+                          <CheckCircle2
+                            className="mt-0.5 h-4 w-4 shrink-0"
+                            style={{ color: layer.color }}
+                          />
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+              <div className="rounded-xl border border-violet-200 bg-violet-50/50 px-5 py-4 text-center">
+                <p className="text-xs font-bold uppercase tracking-wider text-violet-600">
+                  能力公式
+                </p>
+                <p className="mt-2 text-sm font-semibold text-slate-800">
+                  {AI_TEACHER_MODEL.capabilityFormula}
+                </p>
+              </div>
+            </section>
+
+            {/* 5. Verify */}
             <section id="verify" className="lingoace-panel scroll-mt-24 p-6 sm:p-8">
               <SectionHeader
-                num={3}
+                num={5}
                 title="效果验证"
                 subtitle="教师侧 60 天闭环 · 学员侧可作更长周期辅助验证"
               />
@@ -365,13 +505,86 @@ export default function LingoAceMainPage() {
               </div>
             </section>
 
-            {/* 4. Roadmap */}
+            {/* 6. Roadmap */}
             <section id="roadmap" className="lingoace-panel scroll-mt-24 p-6 sm:p-8">
               <SectionHeader
-                num={4}
-                title="60 天落地路径"
-                subtitle="兼职师资运营节奏紧，15 / 30 / 45 / 60 天逐级推进"
+                num={6}
+                title="1–3 年三层时间地图"
+                subtitle={ROADMAP_VISION.headline}
               />
+
+              <div className="mb-8">
+                <p className="mb-3 text-sm font-semibold text-slate-700">战略层（点击切换）</p>
+                <div className="mb-2 flex gap-1 rounded-2xl bg-slate-100 p-1.5">
+                  {ROADMAP_VISION.layers.map((r, i) => (
+                    <button
+                      key={r.horizon}
+                      type="button"
+                      onClick={() => setVisionIdx(i)}
+                      className={`flex-1 rounded-xl py-2.5 text-center text-sm font-semibold transition-all ${
+                        visionIdx === i
+                          ? "text-white shadow-md"
+                          : "text-slate-600 hover:bg-white/60"
+                      }`}
+                      style={
+                        visionIdx === i
+                          ? {
+                              background: `linear-gradient(135deg, ${r.color}, ${r.color}dd)`,
+                            }
+                          : undefined
+                      }
+                    >
+                      {r.horizon}
+                    </button>
+                  ))}
+                </div>
+                <div className="overflow-hidden rounded-2xl border border-slate-100">
+                  <div
+                    className="px-6 py-5 text-white"
+                    style={{
+                      background: `linear-gradient(135deg, ${vision.color}18, transparent), linear-gradient(135deg, ${vision.color}, ${vision.color}cc)`,
+                    }}
+                  >
+                    <p className="text-xs font-medium uppercase tracking-wider text-white/80">
+                      {vision.theme} · {vision.horizon}
+                    </p>
+                    <h3 className="mt-1 text-xl font-bold">{vision.subtitle}</h3>
+                  </div>
+                  <div className="grid gap-6 bg-white p-6 md:grid-cols-2">
+                    <div>
+                      <p className="mb-3 text-xs font-bold uppercase tracking-wider text-indigo-600">
+                        目标
+                      </p>
+                      <ul className="space-y-2">
+                        {vision.goals.map((g) => (
+                          <li key={g} className="flex gap-2 text-sm text-slate-600">
+                            <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-emerald-500" />
+                            {g}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div>
+                      <p className="mb-3 text-xs font-bold uppercase tracking-wider text-emerald-600">
+                        交付物
+                      </p>
+                      <ul className="space-y-2">
+                        {vision.deliverables.map((d) => (
+                          <li key={d} className="flex gap-2 text-sm text-slate-600">
+                            <Globe2 className="mt-0.5 h-4 w-4 shrink-0 text-indigo-500" />
+                            {d}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <p className="mb-3 flex items-center gap-2 text-sm font-semibold text-slate-700">
+                <Route className="h-4 w-4 text-indigo-500" />
+                90 天内执行节奏（第一层落地）
+              </p>
 
               <div className="mb-2 flex gap-1 rounded-2xl bg-slate-100 p-1.5">
                 {ROADMAP_60.map((r, i) => (
